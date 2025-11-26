@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('lahans', function (Blueprint $table) {
             $table->id();
+            $table->float('luas_lahan');
+            $table->decimal('latitude', 10, 7);
+            $table->decimal('longitude', 10, 7);
             $table->timestamps();
         });
     }

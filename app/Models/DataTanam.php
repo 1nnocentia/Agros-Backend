@@ -4,11 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Lahan extends Model
+class DataTanam extends Model
 {
     protected $fillable = [
-        'luas_lahan',
-        'latitude',
-        'longitude',
+        'tanggal_tanam'
     ];
 }
