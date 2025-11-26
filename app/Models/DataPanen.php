@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Komoditas extends Model
+class DataPanen extends Model
 {
     protected $fillable = [
-        'nama_komoditas'
+        'tanggal_panen',
+        'bobot_hasil'
     ];
 }
