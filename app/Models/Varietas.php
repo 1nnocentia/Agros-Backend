@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Varietas extends Model
 {
-    protected $fillable = ['nama_varietas'];
+    protected $fillable = [
+        'nama_varietas'
+    ];
 }
