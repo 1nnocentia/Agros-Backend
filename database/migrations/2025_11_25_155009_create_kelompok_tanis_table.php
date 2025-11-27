@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kelompok_tanis', function (Blueprint $table) {
+        Schema::create('kelompok_tani', function (Blueprint $table) {
             $table->id();
+            $table->string('kelompok_tani')->unique();
             $table->timestamps();
         });
     }
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kelompok_tanis');
+        Schema::dropIfExists('kelompok_tani');
     }
 };
