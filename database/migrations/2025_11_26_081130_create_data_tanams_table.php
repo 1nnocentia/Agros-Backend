@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->date('tanggal_tanam');
             $table->timestamps();
+
+            $table->foreignId('lahan_id')->constrained('lahans')->onDelete('cascade');
+            $table->foreignId(column: 'varietas_id')->constrained('varietas')->onDelete('cascade');
+            $table->foreignId('status_tanam_id')->constrained('status_tanams')->onDelete('cascade');
         });
     }
 

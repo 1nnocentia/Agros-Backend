@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('varietas', function (Blueprint $table) {
             $table->id();
             $table->string('nama_varietas')->unique();
+
+            $table->foreignId('komoditas_id')->constrained('komoditas')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

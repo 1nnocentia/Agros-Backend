@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->date('tanggal_panen');
             $table->float('bobot_hasil');
+
+            $table->foreignId('data_tanam_id')->constrained('data_tanams')->onDelete('cascade');
+            $table->foreignId('status_panen_id')->constrained('status_panens')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

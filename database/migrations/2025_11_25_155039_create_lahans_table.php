@@ -16,6 +16,9 @@ return new class extends Migration
             $table->float('luas_lahan');
             $table->decimal('latitude', 10, 7);
             $table->decimal('longitude', 10, 7);
+
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
