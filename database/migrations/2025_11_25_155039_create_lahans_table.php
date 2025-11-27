@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lahans', function (Blueprint $table) {
+        Schema::create('lahan', function (Blueprint $table) {
             $table->id();
-            $table->float('luas_lahan');
+            $table->decimal('luas_lahan');
             $table->decimal('latitude', 10, 7);
             $table->decimal('longitude', 10, 7);
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lahans');
+        Schema::dropIfExists('lahan');
     }
 };

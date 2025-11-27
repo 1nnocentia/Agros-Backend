@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class DataTanam extends Model
 {
     protected $fillable = [
+        'lahan_id',
+        'varietas_id',
+        'status_tanam_id',
         'tanggal_tanam'
+    ];
+
+    protected $casts = [
+        'tanggal_tanam' => 'datetime',
     ];
 
     public function lahan()

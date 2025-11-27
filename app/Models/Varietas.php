@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Varietas extends Model
 {
     protected $fillable = [
+        'komoditas_id',
         'nama_varietas'
     ];
 
