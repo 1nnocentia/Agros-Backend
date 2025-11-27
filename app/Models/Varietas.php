@@ -9,4 +9,14 @@ class Varietas extends Model
     protected $fillable = [
         'nama_varietas'
     ];
+
+    public function komoditas()
+    {
+        return $this->belongsTo(Komoditas::class);
+    }
+
+    public function dataTanam()
+    {
+        return $this->hasMany(DataTanam::class);
+    }
 }

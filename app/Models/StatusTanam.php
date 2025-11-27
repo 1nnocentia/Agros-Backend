@@ -9,4 +9,9 @@ class StatusTanam extends Model
     protected $fillable = [
         'status_tanam'
     ];
+
+    public function dataTanam()
+    {
+        return $this->hasMany(DataTanam::class);
+    }
 }

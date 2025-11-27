@@ -9,5 +9,9 @@ class KelompokTani extends Model
     protected $fillable = [
         'nama_kelompok'
     ];
+
+    public function user(){
+        return $this->hasMany(User::class);
+    }
 }
 

@@ -11,4 +11,14 @@ class Lahan extends Model
         'latitude',
         'longitude',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function dataTanam()
+    {
+        return $this->hasMany(DataTanam::class);
+    }
 }

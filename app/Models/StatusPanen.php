@@ -9,4 +9,9 @@ class StatusPanen extends Model
     protected $fillable = [
         'status_panen'
     ];
+
+    public function dataPanen()
+    {
+        return $this->hasMany(DataPanen::class);
+    }
 }

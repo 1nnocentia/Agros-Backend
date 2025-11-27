@@ -10,4 +10,9 @@ class DataPanen extends Model
         'tanggal_panen',
         'bobot_hasil'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

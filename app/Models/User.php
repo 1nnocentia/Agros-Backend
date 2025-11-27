@@ -50,4 +50,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function kelompokTani()
+    {
+        return $this->belongsTo(KelompokTani::class);
+    }
+
+    public function lahan()
+    {
+        return $this->hasMany(Lahan::class);
+    }
 }
