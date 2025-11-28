@@ -8,14 +8,14 @@ class DataPanen extends Model
 {
     protected $fillable = [
         'data_tanam_id',
-        'tanggal_panen',
-        'bobot_hasil',
+        'harvest_date',
+        'yield_weight',
         'status_panen_id'
     ];
 
     protected $casts = [
-        'tanggal_panen' => 'datetime',
-        'bobot_hasil' => 'decimal:2',
+        'harvest_date' => 'datetime',
+        'yield_weight' => 'decimal:2',
     ];
 
     public function dataTanam()

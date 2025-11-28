@@ -8,13 +8,13 @@ class Lahan extends Model
 {
     protected $fillable = [
         'user_id',
-        'luas_lahan',
+        'land_area',
         'latitude',
         'longitude',
     ];
 
     protected $casts = [
-        'luas_lahan' => 'decimal:2',
+        'land_area' => 'decimal:2',
         'latitude' => 'decimal:7',
         'longitude' => 'decimal:7',
     ];

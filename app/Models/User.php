@@ -24,9 +24,9 @@ class User extends Authenticatable implements FilamentUser, HasName
     protected $fillable = [
         'role_id',
         'kelompok_tani_id',
-        'nama',
-        'nomor_hp',
-        'verifikasi_wa',
+        'name',
+        'phone_number',
+        'wa_verified',
         'username',
         'email',
         'password',
@@ -55,7 +55,7 @@ class User extends Authenticatable implements FilamentUser, HasName
 
     public function getFilamentName(): string
     {
-        return $this->nama;
+        return $this->name;
     }
 
     public function canAccessPanel(Panel $panel): bool

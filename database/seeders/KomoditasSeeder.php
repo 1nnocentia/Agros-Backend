@@ -13,7 +13,7 @@ class KomoditasSeeder extends Seeder
      */
     public function run(): void
     {
-        Komoditas::create(['nama_komoditas' => 'Padi']);
-        Komoditas::create(['nama_komoditas' => 'Jagung']);
+        Komoditas::create(['komoditas_name' => 'Padi']);
+        Komoditas::create(['komoditas_name' => 'Jagung']);
     }
 }

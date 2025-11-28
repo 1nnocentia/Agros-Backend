@@ -13,17 +13,17 @@ class VarietasSeeder extends Seeder
      */
     public function run(): void
     {
-        Varietas::create(['nama_varietas' => 'Ciliwung', 'komoditas_id' => 1]);
-        Varietas::create(['nama_varietas' => 'Ciherang', 'komoditas_id' => 1]);
-        Varietas::create(['nama_varietas' => 'Inpari 32', 'komoditas_id' => 1]);
-        Varietas::create(['nama_varietas' => 'Mekongga', 'komoditas_id' => 1]);
-        Varietas::create(['nama_varietas' => 'IR 64', 'komoditas_id' => 1]);
-        Varietas::create(['nama_varietas' => 'Way Apo', 'komoditas_id' => 2]);
+        Varietas::create(['varietas_name' => 'Ciliwung', 'komoditas_id' => 1]);
+        Varietas::create(['varietas_name' => 'Ciherang', 'komoditas_id' => 1]);
+        Varietas::create(['varietas_name' => 'Inpari 32', 'komoditas_id' => 1]);
+        Varietas::create(['varietas_name' => 'Mekongga', 'komoditas_id' => 1]);
+        Varietas::create(['varietas_name' => 'IR 64', 'komoditas_id' => 1]);
+        Varietas::create(['varietas_name' => 'Way Apo', 'komoditas_id' => 2]);
 
-        Varietas::create(['nama_varietas' => 'BISI 2', 'komoditas_id' => 2]);
-        Varietas::create(['nama_varietas' => 'Srikandi', 'komoditas_id' => 2]);
-        Varietas::create(['nama_varietas' => 'BISI 18', 'komoditas_id' => 2]);
-        Varietas::create(['nama_varietas' => 'NK Sumo', 'komoditas_id' => 2]);
+        Varietas::create(['varietas_name' => 'BISI 2', 'komoditas_id' => 2]);
+        Varietas::create(['varietas_name' => 'Srikandi', 'komoditas_id' => 2]);
+        Varietas::create(['varietas_name' => 'BISI 18', 'komoditas_id' => 2]);
+        Varietas::create(['varietas_name' => 'NK Sumo', 'komoditas_id' => 2]);
     }
 }
 

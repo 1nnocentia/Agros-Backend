@@ -10,11 +10,11 @@ class DataTanam extends Model
         'lahan_id',
         'varietas_id',
         'status_tanam_id',
-        'tanggal_tanam'
+        'planting_date'
     ];
 
     protected $casts = [
-        'tanggal_tanam' => 'datetime',
+        'planting_date' => 'datetime',
     ];
 
     public function lahan()

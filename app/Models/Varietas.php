@@ -8,7 +8,7 @@ class Varietas extends Model
 {
     protected $fillable = [
         'komoditas_id',
-        'nama_varietas'
+        'varietas_name'
     ];
 
     public function komoditas()

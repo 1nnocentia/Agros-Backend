@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('data_panen', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggal_panen');
-            $table->float('bobot_hasil');
+            $table->date('harvest_date');
+            $table->float('yield_weight');
 
             $table->foreignId('data_tanam_id')->constrained('data_tanam')->onDelete('cascade');
             $table->foreignId('status_panen_id')->constrained('status_panen')->onDelete('cascade');
