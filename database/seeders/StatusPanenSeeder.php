@@ -13,8 +13,8 @@ class StatusPanenSeeder extends Seeder
      */
     public function run(): void
     {
-        StatusPanen::create(['status' => 'Pending']);
-        StatusPanen::create(['status' => 'Verified']);
-        StatusPanen::create(['status' => 'Corrected']);
+        StatusPanen::create(['status_panen' => 'Pending']);
+        StatusPanen::create(['status_panen' => 'Verified']);
+        StatusPanen::create(['status_panen' => 'Corrected']);
     }
 }

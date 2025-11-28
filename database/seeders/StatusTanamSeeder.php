@@ -13,8 +13,8 @@ class StatusTanamSeeder extends Seeder
      */
     public function run(): void
     {
-        StatusTanam::create(['status' => 'Aktif']);
-        StatusTanam::create(['status' => 'Panen']);
-        StatusTanam::create(['status' => 'Gagal']);
+        StatusTanam::create(['status_tanam' => 'Aktif']);
+        StatusTanam::create(['status_tanam' => 'Panen']);
+        StatusTanam::create(['status_tanam' => 'Gagal']);
     }
 }

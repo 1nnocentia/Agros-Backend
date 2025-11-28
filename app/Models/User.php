@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Filament\Models\Contracts\HasName;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser, HasName
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
@@ -49,6 +52,16 @@ class User extends Authenticatable
         'password' => 'hashed',
         'verifikasi_wa' => 'boolean',
     ];
+
+    public function getFilamentName(): string
+    {
+        return $this->nama;
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->role && in_array($this->role->name, ['Admin', 'Bulog', 'Aparat Desa']);
+    }
 
     public function role()
     {
