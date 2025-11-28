@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\KelompokTani;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,11 +17,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-
-        User::factory()->create([
-            'role_id' => 3,
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        
+        $this->call([
+            RoleSeeder::class,
+            UserSeeder::class,
+            KomoditasSeeder::class,
+            VarietasSeeder::class,
+            StatusTanamSeeder::class,
+            StatusPanenSeeder::class,
         ]);
     }
 }

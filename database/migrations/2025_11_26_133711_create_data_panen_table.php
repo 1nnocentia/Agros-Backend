@@ -17,7 +17,7 @@ return new class extends Migration
             $table->float('yield_weight');
 
             $table->foreignId('data_tanam_id')->constrained('data_tanam')->onDelete('cascade');
-            $table->foreignId('status_panen_id')->constrained('status_panen')->onDelete('cascade');
+            $table->foreignId('status_panen_id')->constrained('status_panens')->onDelete('cascade');
 
             $table->timestamps();
         });
