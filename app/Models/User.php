@@ -77,4 +77,9 @@ class User extends Authenticatable implements FilamentUser, HasName
     {
         return $this->hasMany(Lahan::class);
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->role?->role_name === 'Admin';
+    }
 }
