@@ -17,7 +17,7 @@ class KelompokTaniFactory extends Factory
     public function definition(): array
     {
         return [
-            'kelompok_tani_name' => fake()->company(),
+            'kelompok_tani' => fake()->company(),
         ];
     }
 }

@@ -9,10 +9,12 @@ use App\Filament\Resources\Users\Schemas\UserForm;
 use App\Filament\Resources\Users\Tables\UsersTable;
 use App\Models\User;
 use BackedEnum;
+use Dom\Text;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 
 class UserResource extends Resource
 {
@@ -29,7 +31,15 @@ class UserResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return UsersTable::configure($table);
+        return $table
+            ->columns([
+                TextColumn::make('name'),
+                TextColumn::make('email'),
+                TextColumn::make('role'),
+            ])
+            ->filters([
+                TextColumn::make('role')->label('Role'),
+            ]);
     }
 
     public static function getRelations(): array
@@ -47,5 +57,4 @@ class UserResource extends Resource
             'edit' => EditUser::route('/{record}/edit'),
         ];
     }
-    
 }

@@ -59,9 +59,4 @@ class AdminDashboardPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
     }
-
-    public function authorize(): bool
-    {
-        return auth()->user()?->isAdmin() ?? false;
-    }
 }

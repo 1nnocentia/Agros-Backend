@@ -10,11 +10,12 @@ use Laravel\Sanctum\HasApiTokens;
 use Filament\Models\Contracts\HasName;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser, HasName
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, HasRoles;
 
     /**
      * The attributes that are mass assignable.
