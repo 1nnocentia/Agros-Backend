@@ -10,11 +10,13 @@ use App\Filament\Resources\Users\Tables\UsersTable;
 use App\Models\User;
 use BackedEnum;
 use Dom\Text;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\Select;
 
 class UserResource extends Resource
 {
@@ -39,7 +41,22 @@ class UserResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return UserForm::configure($schema);
+        return $schema
+            ->schema([
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                TextInput::make('email')
+                    ->email()
+                    ->maxLength(255),
+                TextInput::make('phone_number')
+                    ->maxLength(20),
+                Select::make('role_id')
+                    ->label('Role')
+                    ->relationship(name: 'role', titleAttribute: 'role_name')
+                    ->preload()
+                    ->required(),
+            ]);
     }
 
     public static function table(Table $table): Table
