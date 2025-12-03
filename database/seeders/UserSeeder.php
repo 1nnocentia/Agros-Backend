@@ -20,5 +20,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password1234'),
             'role_id' => 1,
         ]);
+
+        User::factory()->count(10)->create();
     }
 }
