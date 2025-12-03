@@ -30,7 +30,7 @@ class EditProfile extends BaseEditProfile
     {
         $data = $this->form->getState();
 
-         $user = $this->getUser();
+        $user = $this->getUser();
 
         if (! Hash::check($data['current_password'], $user->password)) {
             throw ValidationException::withMessages([
