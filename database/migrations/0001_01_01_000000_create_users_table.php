@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone_number')->unique()->nullable();
             $table->boolean('wa_verified')->default(false);
-            $table->string('username')->unique()->nullable();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();

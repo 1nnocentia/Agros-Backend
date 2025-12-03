@@ -22,7 +22,20 @@ class UserResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    protected static ?string $navigationLabel = 'Users';
+    
+    protected static ?string $modelLabel = 'User';
+    
+    protected static ?string $pluralModelLabel = 'Users';
+    
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $recordTitleAttribute = 'name';
+    
+    public static function shouldRegisterNavigation(): bool
+    {
+        return true;
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -33,12 +46,33 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('email'),
-                TextColumn::make('role'),
+                TextColumn::make('name')
+                    ->label('Nama')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('email')
+                    ->label('Email')
+                    ->searchable(),
+                TextColumn::make('phone_number')
+                    ->label('No. HP')
+                    ->searchable(),
+                TextColumn::make('wa_verified')
+                    ->label('WA Verified')
+                    ->boolean()
+                    ->sortable(),
+                TextColumn::make('role.role_name')
+                    ->label('Role')
+                    ->badge()
+                    ->sortable(),
+                TextColumn::make('kelompokTani.kelompok_tani')
+                    ->label('Kelompok Tani'),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                TextColumn::make('role')->label('Role'),
+                //
             ]);
     }
 

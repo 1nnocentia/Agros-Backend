@@ -12,7 +12,8 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        // Hanya Admin, Bulog, dan Aparat Desa yang bisa lihat list users
+        return in_array($user->role?->role_name, ['Admin', 'Bulog', 'Aparat Desa']);
     }
 
     /**
@@ -20,7 +21,8 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return false;
+        // Hanya Admin, Bulog, dan Aparat Desa yang bisa lihat detail user
+        return in_array($user->role?->role_name, ['Admin', 'Bulog', 'Aparat Desa']);
     }
 
     /**
@@ -28,7 +30,8 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        // Hanya Admin yang bisa create user baru
+        return $user->role?->role_name === 'Admin';
     }
 
     /**
@@ -36,7 +39,13 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return false;
+        // Admin bisa update semua user
+        if ($user->role?->role_name === 'Admin') {
+            return true;
+        }
+        
+        // User bisa update profile sendiri
+        return $user->id === $model->id;
     }
 
     /**
@@ -44,7 +53,8 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return false;
+        // Hanya Admin yang bisa delete user (kecuali diri sendiri)
+        return $user->role?->role_name === 'Admin' && $user->id !== $model->id;
     }
 
     /**
@@ -52,7 +62,8 @@ class UserPolicy
      */
     public function restore(User $user, User $model): bool
     {
-        return false;
+        // Hanya Admin yang bisa restore user
+        return $user->role?->role_name === 'Admin';
     }
 
     /**
@@ -60,6 +71,7 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model): bool
     {
-        return false;
+        // Hanya Admin yang bisa permanently delete user (kecuali diri sendiri)
+        return $user->role?->role_name === 'Admin' && $user->id !== $model->id;
     }
 }
