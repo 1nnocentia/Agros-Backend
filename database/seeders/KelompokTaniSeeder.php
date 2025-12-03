@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\KelompokTani;
 
 class KelompokTaniSeeder extends Seeder
 {
@@ -12,6 +13,8 @@ class KelompokTaniSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        KelompokTani::create(['kelompok_tani_name' => 'Tani Makmur']);
+
+        KelompokTani::factory()->count(5)->create();
     }
 }
