@@ -18,6 +18,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Filament\Pages\Auth\EditProfile;
 
 class AdminDashboardPanelProvider extends PanelProvider
 {
@@ -28,9 +29,11 @@ class AdminDashboardPanelProvider extends PanelProvider
             ->id('admin-dashboard')
             ->path('admin-dashboard')
             ->login()
+            ->profile()
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->profile(EditProfile::class)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
