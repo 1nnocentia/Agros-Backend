@@ -58,8 +58,13 @@ class UserResource extends Resource
                     ->searchable(),
                 TextColumn::make('wa_verified')
                     ->label('WA Verified')
-                    ->boolean()
-                    ->sortable(),
+                    ->sortable()
+                    ->formatStateUsing(fn (string $state): string => $state == 1 ? 'Sudah' : 'Belum')
+                    ->color(fn (string $state): string => match ($state) {
+                        '1' => 'success',
+                        '0' => 'danger',
+                        default => 'gray',
+                    }),
                 TextColumn::make('role.role_name')
                     ->label('Role')
                     ->badge()
