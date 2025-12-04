@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
+use App\Models\Lahan;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Lahan>
@@ -17,8 +19,12 @@ class LahanFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => random_int(1, 25),
+            'user_id' => function () {
+                $petani = User::where('role_id', 2)->inRandomOrder()->first();
+                return $petani ? $petani->id : User::factory()->create(['role_id' => 2])->id;
+            },
             'land_area' => $this->faker->randomFloat(2, 0.5, 10),
+            
         ];
     }
 }
