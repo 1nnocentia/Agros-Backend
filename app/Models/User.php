@@ -29,6 +29,7 @@ class User extends Authenticatable implements FilamentUser, HasName
         'wa_verified',
         'email',
         'password',
+        'isActive',
     ];
 
     /**
@@ -49,7 +50,8 @@ class User extends Authenticatable implements FilamentUser, HasName
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'verifikasi_wa' => 'boolean',
+        'wa_verified' => 'boolean',
+        'isActive' => 'boolean',
     ];
 
     public function getFilamentName(): string

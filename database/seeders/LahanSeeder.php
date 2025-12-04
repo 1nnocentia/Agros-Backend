@@ -13,6 +13,6 @@ class LahanSeeder extends Seeder
      */
     public function run(): void
     {
-        Lahan::factory()->count(15)->create();
+        Lahan::factory()->count(20)->create();
     }
 }

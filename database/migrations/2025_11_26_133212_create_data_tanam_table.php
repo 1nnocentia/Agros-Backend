@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('planting_date');
 
-            $table->foreignId('lahan_id')->constrained('lahan')->onDelete('cascade');
+            $table->foreignId('lahan_id')->constrained('lahan')->onDelete('cascade')->index();
             $table->foreignId('varietas_id')->constrained('varietas')->onDelete('cascade');
             $table->foreignId('status_tanam_id')->constrained('status_tanam')->onDelete('cascade');
 

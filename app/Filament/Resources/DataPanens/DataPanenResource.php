@@ -9,6 +9,7 @@ use App\Filament\Resources\DataPanens\Schemas\DataPanenForm;
 use App\Filament\Resources\DataPanens\Tables\DataPanensTable;
 use App\Models\DataPanen;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -21,6 +22,12 @@ class DataPanenResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'DataPanen';
+    
+    protected static ?string $navigationLabel = 'Data Panen';
+    
+    protected static string|UnitEnum|null $navigationGroup = 'Master Data';
+    
+    protected static ?int $navigationSort = 6;
 
     public static function form(Schema $schema): Schema
     {
