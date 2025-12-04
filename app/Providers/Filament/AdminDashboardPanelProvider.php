@@ -19,6 +19,13 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Pages\Auth\EditProfile;
+use App\Filament\Resources\DataTanams\DataTanamResource;
+use App\Filament\Resources\Users\UserResource;
+use App\Filament\Resources\KelompokTanis\KelompokTaniResource;
+use App\Filament\Resources\Komoditas\KomoditasResource;
+use App\Filament\Resources\Varietas\VarietasResource;
+use App\Filament\Resources\DataPanens\DataPanenResource;
+use App\Filament\Resources\Lahans\LahanResource;
 
 class AdminDashboardPanelProvider extends PanelProvider
 {
@@ -34,7 +41,15 @@ class AdminDashboardPanelProvider extends PanelProvider
                 'primary' => Color::Amber,
             ])
             ->profile(EditProfile::class)
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
+            ->resources([
+                UserResource::class,
+                KelompokTaniResource::class,
+                KomoditasResource::class,
+                VarietasResource::class,
+                DataTanamResource::class,
+                DataPanenResource::class,
+                LahanResource::class
+            ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
                 Dashboard::class,

@@ -13,7 +13,7 @@ class KelompokTaniSeeder extends Seeder
      */
     public function run(): void
     {
-        KelompokTani::create(['kelompok_tani_name' => 'Tani Makmur']);
+        KelompokTani::create(['kelompok_tani' => 'Tani Makmur']);
 
         KelompokTani::factory()->count(5)->create();
     }

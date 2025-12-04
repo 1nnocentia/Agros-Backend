@@ -27,7 +27,6 @@ class User extends Authenticatable implements FilamentUser, HasName
         'name',
         'phone_number',
         'wa_verified',
-        'username',
         'email',
         'password',
     ];

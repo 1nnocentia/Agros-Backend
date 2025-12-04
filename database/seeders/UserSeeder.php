@@ -15,7 +15,6 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name' => 'Super Admin',
-            'username' => 'admin_inno',
             'email' => 'inno@admin.com',
             'password' => bcrypt('password1234'),
             'role_id' => 1,
