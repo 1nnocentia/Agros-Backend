@@ -23,6 +23,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $roleId = random_int(2, 4);
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
@@ -30,8 +31,9 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
 
-            'role_id' => random_int(2, 4),
-            'wa_verified' => false,
+            'role_id' => $roleId,
+            'kelompok_tani_id' => ($roleId === 2) ? random_int(1, 5) : null,
+            'wa_verified' => random_int(0, 1) === 1,
             'phone_number' => fake()->phoneNumber(),
         ];
     }

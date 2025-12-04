@@ -48,9 +48,19 @@ class UserResource extends Resource
                     ->maxLength(255),
                 TextInput::make('email')
                     ->email()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true),
                 TextInput::make('phone_number')
-                    ->maxLength(20),
+                    ->maxLength(20)
+                    ->placeholder('Contoh: 08123456789')
+                    ->regex('/^08[1-9][0-9]{7,11}$/')
+                    ->mask('9999-9999-99999')
+                    ->stripCharacters(['-'])
+                    ->rule('starts_with:08')
+                    ->validationMessages([
+                        'regex' => 'Nomor HP harus diawali 08 dan berisi angka saja.',
+                        ])
+                    ->unique(ignoreRecord: true),
                 Select::make('role_id')
                     ->label('Role')
                     ->relationship(name: 'role', titleAttribute: 'role_name')

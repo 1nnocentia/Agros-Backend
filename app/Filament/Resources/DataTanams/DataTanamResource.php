@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 
 class DataTanamResource extends Resource
 {
@@ -24,18 +25,35 @@ class DataTanamResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return DataTanamForm::configure($schema);
+        return $schema
+            ->schema([
+                //
+            ]);
     }
 
     public static function table(Table $table): Table
     {
-        return DataTanamsTable::configure($table);
+        return $table
+            ->columns([
+                TextColumn::make('user.name')
+                    ->label('Nama Petani')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('planting_date')
+                    ->label('Tanggal Tanam')
+                    ->date()
+                    ->sortable(),
+                TextColumn::make('statustanam.status_tanam')
+                    ->label('Status Tanam')
+                    ->searchable()
+                    ->sortable(),
+            ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            
         ];
     }
 

@@ -8,4 +8,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateLahan extends CreateRecord
 {
     protected static string $resource = LahanResource::class;
+
+    public function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

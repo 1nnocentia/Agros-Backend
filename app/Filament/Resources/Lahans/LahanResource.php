@@ -13,6 +13,9 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 
 class LahanResource extends Resource
 {
@@ -24,12 +27,33 @@ class LahanResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return LahanForm::configure($schema);
+        return $schema
+            ->schema([
+                Select::make('user_id')
+                    ->label('Owner')
+                    ->relationship(name: 'user', titleAttribute: 'name')
+                    ->preload()
+                    ->required(),
+                TextInput::make('land_area')
+                    ->label('Luas Lahan (ha)')
+                    ->numeric()
+                    ->required(),
+                // Lokasi
+            ]);
     }
 
     public static function table(Table $table): Table
     {
-        return LahansTable::configure($table);
+        return $table
+            ->columns([
+                TextColumn::make('user.name')
+                    ->label('Owner')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('land_area')
+                    ->label('Luas Lahan (ha)')
+                    ->sortable(),
+            ]);
     }
 
     public static function getRelations(): array

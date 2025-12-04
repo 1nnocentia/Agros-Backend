@@ -14,6 +14,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 
 class KelompokTaniResource extends Resource
 {
@@ -31,7 +32,14 @@ class KelompokTaniResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return KelompokTaniForm::configure($schema);
+        return $schema
+            ->schema([
+                TextInput::make('kelompok_tani')
+                    ->label('Nama Kelompok Tani')
+                    ->required()
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -47,6 +55,12 @@ class KelompokTaniResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('petani_count')
+                    ->counts('users')
+                    ->numeric()
+                    ->default(0)
+                    ->label('Jumlah Anggota')
+                    ->sortable(),
             ]);
     }
 

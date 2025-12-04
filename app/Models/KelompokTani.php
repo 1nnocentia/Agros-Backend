@@ -13,8 +13,8 @@ class KelompokTani extends Model
         'kelompok_tani'
     ];
 
-    public function user(){
-        return $this->hasMany(User::class);
+    public function users(){
+        return $this->hasMany(User::class, 'kelompok_tani_id');
     }
 }
 

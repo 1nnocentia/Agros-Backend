@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class DataTanam extends Model
 {
     use HasFactory;
+    protected $table = 'data_tanam';
     protected $fillable = [
         'lahan_id',
         'varietas_id',
@@ -15,7 +16,7 @@ class DataTanam extends Model
         'planting_date'
     ];
 
-    protected $casts = [
+    protected $casts = [ 
         'planting_date' => 'datetime',
     ];
 
