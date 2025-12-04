@@ -9,6 +9,7 @@ use App\Filament\Resources\DataTanams\Schemas\DataTanamForm;
 use App\Filament\Resources\DataTanams\Tables\DataTanamsTable;
 use App\Models\DataTanam;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -22,6 +23,12 @@ class DataTanamResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'DataTanam';
+    
+    protected static ?string $navigationLabel = 'Data Tanam';
+    
+    protected static string|UnitEnum|null $navigationGroup = 'Master Data';
+    
+    protected static ?int $navigationSort = 5;
 
     public static function form(Schema $schema): Schema
     {

@@ -26,6 +26,7 @@ use App\Filament\Resources\Komoditas\KomoditasResource;
 use App\Filament\Resources\Varietas\VarietasResource;
 use App\Filament\Resources\DataPanens\DataPanenResource;
 use App\Filament\Resources\Lahans\LahanResource;
+use Filament\Navigation\NavigationGroup;
 
 class AdminDashboardPanelProvider extends PanelProvider
 {
@@ -48,8 +49,14 @@ class AdminDashboardPanelProvider extends PanelProvider
                 VarietasResource::class,
                 DataTanamResource::class,
                 DataPanenResource::class,
-                LahanResource::class
             ])
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('User Management'),
+                NavigationGroup::make()
+                    ->label('Master Data'),
+            ])
+            ->collapsibleNavigationGroups(true)
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
                 Dashboard::class,

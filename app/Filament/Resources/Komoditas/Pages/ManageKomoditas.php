@@ -4,9 +4,9 @@ namespace App\Filament\Resources\Komoditas\Pages;
 
 use App\Filament\Resources\Komoditas\KomoditasResource;
 use Filament\Actions\CreateAction;
-use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\Pages\ManageRecords;
 
-class ListKomoditas extends ListRecords
+class ManageKomoditas extends ManageRecords
 {
     protected static string $resource = KomoditasResource::class;
 
@@ -15,10 +15,5 @@ class ListKomoditas extends ListRecords
         return [
             CreateAction::make(),
         ];
-    }
-
-    public function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
     }
 }

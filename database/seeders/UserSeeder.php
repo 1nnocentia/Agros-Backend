@@ -18,8 +18,9 @@ class UserSeeder extends Seeder
             'email' => 'inno@admin.com',
             'password' => bcrypt('password1234'),
             'role_id' => 1,
+            'isActive' => true,
         ]);
 
-        User::factory()->count(25)->create();
+        User::factory()->count(40)->create();
     }
 }

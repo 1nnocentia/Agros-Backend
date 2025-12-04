@@ -9,6 +9,7 @@ use App\Filament\Resources\Varietas\Schemas\VarietasForm;
 use App\Filament\Resources\Varietas\Tables\VarietasTable;
 use App\Models\Varietas;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -26,6 +27,10 @@ class VarietasResource extends Resource
     protected static ?string $recordTitleAttribute = 'varietas_name';
     
     protected static ?string $navigationLabel = 'Varietas';
+    
+    protected static string|UnitEnum|null $navigationGroup = 'Master Data';
+    
+    protected static ?int $navigationSort = 4;
     
     protected static ?string $modelLabel = 'Varietas';
     

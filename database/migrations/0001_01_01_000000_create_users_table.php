@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->boolean('isActive')->default(true)->index();
 
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
             $table->foreignId('kelompok_tani_id')->nullable()->constrained('kelompok_tani')->onDelete('set null');

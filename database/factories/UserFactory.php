@@ -30,6 +30,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'isActive' => true,
 
             'role_id' => $roleId,
             'kelompok_tani_id' => ($roleId === 2) ? random_int(1, 5) : null,

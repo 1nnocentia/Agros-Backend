@@ -2,19 +2,26 @@
 
 namespace App\Filament\Resources\KelompokTanis;
 
-use App\Filament\Resources\KelompokTanis\Pages\CreateKelompokTani;
-use App\Filament\Resources\KelompokTanis\Pages\EditKelompokTani;
-use App\Filament\Resources\KelompokTanis\Pages\ListKelompokTanis;
-use App\Filament\Resources\KelompokTanis\Schemas\KelompokTaniForm;
-use App\Filament\Resources\KelompokTanis\Tables\KelompokTanisTable;
+use App\Filament\Resources\KelompokTanis\Pages\ManageKelompokTanis;
+use App\Filament\Resources\KelompokTanis\RelationManagers;
 use App\Models\KelompokTani;
 use BackedEnum;
+use UnitEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Table;
+use Filament\Actions\ViewAction;
+use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\RepeatableEntry;
 
 class KelompokTaniResource extends Resource
 {
@@ -22,61 +29,78 @@ class KelompokTaniResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    protected static ?string $recordTitleAttribute = 'kelompok_tani';
+    
     protected static ?string $navigationLabel = 'Kelompok Tani';
     
-    protected static ?string $modelLabel = 'Kelompok Tani';
+    protected static string|UnitEnum|null $navigationGroup = 'User Management';
     
-    protected static ?string $pluralModelLabel = 'Kelompok Tani';
-
-    protected static ?string $recordTitleAttribute = 'kelompok_tani';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->schema([
+            ->components([
                 TextInput::make('kelompok_tani')
-                    ->label('Nama Kelompok Tani')
-                    ->required()
-                    ->maxLength(255)
-                    ->unique(ignoreRecord: true),
+                    ->required(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->recordTitleAttribute('KelompokTani')
             ->columns([
                 TextColumn::make('kelompok_tani')
-                    ->label('Nama Kelompok Tani')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('users_count')
+                    ->counts('users')
+                    ->label('Jumlah Anggota')
+                    ->sortable()
+                    ->alignCenter(),
                 TextColumn::make('created_at')
-                    ->label('Created')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('petani_count')
-                    ->counts('users')
-                    ->numeric()
-                    ->default(0)
-                    ->label('Jumlah Anggota')
-                    ->sortable(),
+                TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                //
+            ])
+            ->recordActions([
+                ViewAction::make()
+                    ->modalContent(fn (KelompokTani $record) => view(
+                        'filament.resources.kelompok-tani.expand-row',
+                        ['record' => $record]
+                    ))
+                    ->modalHeading(fn (KelompokTani $record) => 'Anggota: ' . $record->kelompok_tani)
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Tutup'),
+                EditAction::make(),
+                DeleteAction::make(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\UsersRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListKelompokTanis::route('/'),
-            'create' => CreateKelompokTani::route('/create'),
-            'edit' => EditKelompokTani::route('/{record}/edit'),
+            'index' => ManageKelompokTanis::route('/'),
         ];
     }
 }
