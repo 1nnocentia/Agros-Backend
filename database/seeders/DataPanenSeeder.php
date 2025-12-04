@@ -13,7 +13,6 @@ class DataPanenSeeder extends Seeder
      */
     public function run(): void
     {
-        
         DataPanen::factory()->count(20)->create();
     }
 }

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('lahan', function (Blueprint $table) {
             $table->id();
             $table->decimal('land_area', 8, 2);
-            $table->decimal('latitude', 10, 7);
-            $table->decimal('longitude', 10, 7);
+            $table->decimal('latitude', 10, 7)->nullable();
+            $table->decimal('longitude', 10, 7)->nullable();
 
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 

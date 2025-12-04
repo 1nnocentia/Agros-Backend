@@ -17,7 +17,7 @@ class DataTanamFactory extends Factory
     public function definition(): array
     {
         return [
-            'lahan_id' => random_int(1, 10),
+            'lahan_id' => random_int(1, 15),
             'varietas_id' => random_int(1, 10),
             'status_tanam_id' => random_int(1, 3),
             'planting_date' => $this->faker->date(),

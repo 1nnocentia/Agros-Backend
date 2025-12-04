@@ -24,8 +24,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             KomoditasSeeder::class,
             VarietasSeeder::class,
+            LahanSeeder::class,
             StatusTanamSeeder::class,
             StatusPanenSeeder::class,
+            DataTanamSeeder::class,
+            DataPanenSeeder::class,
         ]);
     }
 }
