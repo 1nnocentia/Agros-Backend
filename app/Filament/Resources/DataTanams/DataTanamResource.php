@@ -35,7 +35,7 @@ class DataTanamResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')
+                TextColumn::make('users.name')
                     ->label('Nama Petani')
                     ->searchable()
                     ->sortable(),
