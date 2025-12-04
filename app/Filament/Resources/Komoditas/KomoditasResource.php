@@ -9,10 +9,12 @@ use App\Filament\Resources\Komoditas\Schemas\KomoditasForm;
 use App\Filament\Resources\Komoditas\Tables\KomoditasTable;
 use App\Models\Komoditas;
 use BackedEnum;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 
 class KomoditasResource extends Resource
 {
@@ -24,12 +26,25 @@ class KomoditasResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return KomoditasForm::configure($schema);
+        return $schema
+            ->schema([
+                TextInput::make('komoditas_name')
+                    ->label('Nama Komoditas')
+                    ->required()
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true)
+            ]);
     }
 
     public static function table(Table $table): Table
     {
-        return KomoditasTable::configure($table);
+        return $table
+            ->columns([
+                TextColumn::make('komoditas_name')
+                    ->label('Nama Komoditas')
+                    ->searchable()
+                    ->sortable(),
+            ]);
     }
 
     public static function getRelations(): array

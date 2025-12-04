@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class StatusTanam extends Model
-{
+{   
+    protected $table = 'status_tanam';
     protected $fillable = [
         'status_tanam'
     ];

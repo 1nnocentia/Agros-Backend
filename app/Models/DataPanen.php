@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class DataPanen extends Model
 {
     use HasFactory;
+    protected $table = 'data_panen';
     protected $fillable = [
         'data_tanam_id',
         'harvest_date',

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Lahan extends Model
 {
     use HasFactory;
+    protected $table = 'lahan';
     protected $fillable = [
         'user_id',
         'land_area',

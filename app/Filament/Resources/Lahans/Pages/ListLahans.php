@@ -16,4 +16,8 @@ class ListLahans extends ListRecords
             CreateAction::make(),
         ];
     }
+    public function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
