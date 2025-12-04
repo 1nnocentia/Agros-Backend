@@ -16,8 +16,8 @@ return new class extends Migration
             $table->date('harvest_date');
             $table->float('yield_weight');
 
-            $table->foreignId('data_tanam_id')->constrained('data_tanam')->onDelete('cascade');
-            $table->foreignId('status_panen_id')->constrained('status_panen')->onDelete('cascade');
+            $table->foreignId('data_tanam_id')->constrained('data_tanam')->onDelete('cascade')->index();
+            $table->foreignId('status_panen_id')->constrained('status_panen')->onDelete('cascade')->index();
 
             $table->timestamps();
         });
