@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\KelompokTanis;
 
-use App\Filament\Resources\KelompokTanis\Pages\ManageKelompokTanis;
+use App\Filament\Resources\KelompokTanis\Pages\ListKelompokTanis;
+use App\Filament\Resources\KelompokTanis\Pages\CreateKelompokTani;
+use App\Filament\Resources\KelompokTanis\Pages\EditKelompokTani;
 use App\Filament\Resources\KelompokTanis\RelationManagers;
 use App\Models\KelompokTani;
 use BackedEnum;
@@ -22,6 +24,7 @@ use Filament\Actions\ViewAction;
 use Filament\Infolists\Infolist;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\RepeatableEntry;
+use App\Filament\Resources\KelompokTanis\RelationManagers\UsersRelationManager;
 
 class KelompokTaniResource extends Resource
 {
@@ -29,7 +32,7 @@ class KelompokTaniResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = 'kelompok_tani';
+    // protected static ?string $recordTitleAttribute = 'kelompok_tani';
     
     protected static ?string $navigationLabel = 'Kelompok Tani';
     
@@ -70,37 +73,22 @@ class KelompokTaniResource extends Resource
             ])
             ->filters([
                 //
-            ])
-            ->recordActions([
-                ViewAction::make()
-                    ->modalContent(fn (KelompokTani $record) => view(
-                        'filament.resources.kelompok-tani.expand-row',
-                        ['record' => $record]
-                    ))
-                    ->modalHeading(fn (KelompokTani $record) => 'Anggota: ' . $record->kelompok_tani)
-                    ->modalSubmitAction(false)
-                    ->modalCancelActionLabel('Tutup'),
-                EditAction::make(),
-                DeleteAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            RelationManagers\UsersRelationManager::class,
+            UsersRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ManageKelompokTanis::route('/'),
+            'index' => ListKelompokTanis::route('/'),
+            'create' => CreateKelompokTani::route('/create'),
+            'edit' => EditKelompokTani::route('/{record}/edit'),
         ];
     }
 }
