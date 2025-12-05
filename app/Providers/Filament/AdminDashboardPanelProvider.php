@@ -46,7 +46,6 @@ class AdminDashboardPanelProvider extends PanelProvider
                 UserResource::class,
                 KelompokTaniResource::class,
                 KomoditasResource::class,
-                VarietasResource::class,
                 DataTanamResource::class,
                 DataPanenResource::class,
             ])

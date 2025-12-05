@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Komoditas;
 
 use App\Filament\Resources\Komoditas\Pages\ManageKomoditas;
+use App\Filament\Resources\Komoditas\RelationManagers\VarietasRelationManager;
 use App\Models\Komoditas;
 use BackedEnum;
 use UnitEnum;
@@ -16,6 +17,8 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use App\Filament\Resources\Komoditas\Pages\CreateKomoditas;
+use App\Filament\Resources\Komoditas\Pages\EditKomoditas;
 
 class KomoditasResource extends Resource
 {
@@ -70,10 +73,19 @@ class KomoditasResource extends Resource
             ]);
     }
 
+    public static function getRelations(): array
+    {
+        return [
+            VarietasRelationManager::class,
+        ];
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => ManageKomoditas::route('/'),
+            'create' => CreateKomoditas::route('/create'),
+            'edit' => EditKomoditas::route('/{record}/edit'),
         ];
     }
 }
