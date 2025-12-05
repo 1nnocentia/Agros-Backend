@@ -35,6 +35,7 @@ class VarietasRelationManager extends RelationManager
             ->recordTitleAttribute('varietas')
             ->columns([
                 TextColumn::make('varietas_name')
+                    ->label('Nama Varietas')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

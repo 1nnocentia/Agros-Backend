@@ -29,6 +29,8 @@ use App\Filament\Resources\KelompokTanis\RelationManagers\UsersRelationManager;
 class KelompokTaniResource extends Resource
 {
     protected static ?string $model = KelompokTani::class;
+    protected static ?string $modelLabel = 'Kelompok Tani';
+    protected static ?string $pluralModelLabel = 'Daftar Kelompok Tani';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
@@ -55,6 +57,7 @@ class KelompokTaniResource extends Resource
             ->recordTitleAttribute('KelompokTani')
             ->columns([
                 TextColumn::make('kelompok_tani')
+                    ->label('Nama Kelompok Tani')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('users_count')

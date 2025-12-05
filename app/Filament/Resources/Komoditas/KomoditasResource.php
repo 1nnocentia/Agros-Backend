@@ -49,6 +49,7 @@ class KomoditasResource extends Resource
             ->recordTitleAttribute('Komoditas')
             ->columns([
                 TextColumn::make('komoditas_name')
+                    ->label('Nama Komoditas')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
