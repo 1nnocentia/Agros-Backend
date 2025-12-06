@@ -16,6 +16,10 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Forms\Get;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Select;
 
 class DataPanenRelationManager extends RelationManager
 {
@@ -26,13 +30,29 @@ class DataPanenRelationManager extends RelationManager
         return $schema
             ->components([
                 DatePicker::make('harvest_date')
-                    ->required(),
+                    ->label('Tanggal Panen')
+                    ->required()
+                    ->rules([
+                        fn ($livewire): \Closure => function (string $attribute, $value, \Closure $fail) use ($livewire) {
+                            $dataTanam = $livewire->getOwnerRecord();
+                            if ($dataTanam && $value < $dataTanam->planting_date) {
+                                $tglTanam = Carbon::parse($dataTanam->planting_date)->format('d-m-Y');
+                                $fail("Tanggal panen tidak boleh sebelum tanggal tanam ({$tglTanam}).");
+                            }
+                        },
+                    ]),
                 TextInput::make('yield_weight')
+                    ->label('Berat Hasil Panen (kg)')
                     ->required()
                     ->numeric(),
-                TextInput::make('status_panen_id')
-                    ->required()
-                    ->numeric(),
+                Select::make('status_panen_id')
+                    ->label('Status Panen')
+                    ->relationship('statusPanen', 'name')
+                    ->default(1) 
+                    ->hiddenOn('create') 
+                    ->visibleOn('edit') 
+                    ->dehydrated(true) 
+                    ->required(),
             ]);
     }
 
@@ -42,12 +62,14 @@ class DataPanenRelationManager extends RelationManager
             ->recordTitleAttribute('datapanen')
             ->columns([
                 TextColumn::make('harvest_date')
+                    ->label('Tanggal Panen')
                     ->date()
                     ->sortable(),
                 TextColumn::make('yield_weight')
+                    ->label('Berat Hasil Panen (kg)')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('status_panen_id')
+                TextColumn::make('statusPanen.status_panen')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

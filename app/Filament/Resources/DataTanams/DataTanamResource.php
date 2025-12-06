@@ -17,6 +17,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Grouping\Group;
 use App\Filament\Resources\DataTanams\RelationManagers\DataPanenRelationManager;
+use Illuminate\Database\Eloquent\Builder;
 
 class DataTanamResource extends Resource
 {
@@ -43,6 +44,11 @@ class DataTanamResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function (Builder $query) {
+                return $query
+                    ->orderBy('planting_date', 'desc')
+                    ->orderByRaw('FIELD(status_tanam_id, 2, 1, 3)');
+            })
             ->columns([
                 TextColumn::make('lahan.user.name') 
                     ->label('Nama Petani')
