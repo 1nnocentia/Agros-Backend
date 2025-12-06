@@ -15,6 +15,8 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Grouping\Group;
+use App\Filament\Resources\DataTanams\RelationManagers\DataPanenRelationManager;
 
 class DataTanamResource extends Resource
 {
@@ -42,25 +44,35 @@ class DataTanamResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('users.name')
+                TextColumn::make('lahan.user.name') 
                     ->label('Nama Petani')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('varietas.komoditas.komoditas_name')
+                    ->label('Komoditas')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('varietas.varietas_name')
+                    ->label('Varietas')
+                    ->searchable(),
                 TextColumn::make('planting_date')
                     ->label('Tanggal Tanam')
                     ->date()
                     ->sortable(),
-                TextColumn::make('statustanam.status_tanam')
-                    ->label('Status Tanam')
-                    ->searchable()
+                TextColumn::make('statusTanam.status_tanam')
+                    ->label('Status')
+                    ->badge()
                     ->sortable(),
+            ])
+            ->filters([
+                //
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            
+            DataPanenRelationManager::class,
         ];
     }
 

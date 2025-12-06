@@ -47,7 +47,6 @@ class AdminDashboardPanelProvider extends PanelProvider
                 KelompokTaniResource::class,
                 KomoditasResource::class,
                 DataTanamResource::class,
-                DataPanenResource::class,
             ])
             ->navigationGroups([
                 NavigationGroup::make()
