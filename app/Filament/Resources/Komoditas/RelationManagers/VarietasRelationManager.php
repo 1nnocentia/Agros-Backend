@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Users\RelationManagers;
+namespace App\Filament\Resources\Komoditas\RelationManagers;
 
 use Filament\Actions\AssociateAction;
 use Filament\Actions\BulkActionGroup;
@@ -15,47 +15,28 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
 
-class LahanRelationManager extends RelationManager
+class VarietasRelationManager extends RelationManager
 {
-    protected static string $relationship = 'lahan';
-
-    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
-    {
-        return $ownerRecord->role_id === 2;
-    }
+    protected static string $relationship = 'Varietas';
 
     public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
-                TextInput::make('land_area')
-                    ->required()
-                    ->numeric(),
-                TextInput::make('latitude')
-                    ->numeric()
-                    ->default(null),
-                TextInput::make('longitude')
-                    ->numeric()
-                    ->default(null),
+                TextInput::make('varietas_name')
+                    ->required(),
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('Lahan')
+            ->recordTitleAttribute('varietas')
             ->columns([
-                TextColumn::make('land_area')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('latitude')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('longitude')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('varietas_name')
+                    ->label('Nama Varietas')
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

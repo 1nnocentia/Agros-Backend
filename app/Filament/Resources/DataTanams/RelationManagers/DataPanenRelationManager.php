@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Users\RelationManagers;
+namespace App\Filament\Resources\DataTanams\RelationManagers;
 
 use Filament\Actions\AssociateAction;
 use Filament\Actions\BulkActionGroup;
@@ -10,50 +10,66 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\DissociateAction;
 use Filament\Actions\DissociateBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
+use Filament\Forms\Get;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Select;
 
-class LahanRelationManager extends RelationManager
+class DataPanenRelationManager extends RelationManager
 {
-    protected static string $relationship = 'lahan';
-
-    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
-    {
-        return $ownerRecord->role_id === 2;
-    }
+    protected static string $relationship = 'dataPanen';
 
     public function form(Schema $schema): Schema
     {
         return $schema
             ->components([
-                TextInput::make('land_area')
+                DatePicker::make('harvest_date')
+                    ->label('Tanggal Panen')
+                    ->required()
+                    ->rules([
+                        fn ($livewire): \Closure => function (string $attribute, $value, \Closure $fail) use ($livewire) {
+                            $dataTanam = $livewire->getOwnerRecord();
+                            if ($dataTanam && $value < $dataTanam->planting_date) {
+                                $tglTanam = Carbon::parse($dataTanam->planting_date)->format('d-m-Y');
+                                $fail("Tanggal panen tidak boleh sebelum tanggal tanam ({$tglTanam}).");
+                            }
+                        },
+                    ]),
+                TextInput::make('yield_weight')
+                    ->label('Berat Hasil Panen (kg)')
                     ->required()
                     ->numeric(),
-                TextInput::make('latitude')
-                    ->numeric()
-                    ->default(null),
-                TextInput::make('longitude')
-                    ->numeric()
-                    ->default(null),
+                Select::make('status_panen_id')
+                    ->label('Status Panen')
+                    ->relationship('statusPanen', 'name')
+                    ->default(1) 
+                    ->hiddenOn('create') 
+                    ->visibleOn('edit') 
+                    ->dehydrated(true) 
+                    ->required(),
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('Lahan')
+            ->recordTitleAttribute('datapanen')
             ->columns([
-                TextColumn::make('land_area')
+                TextColumn::make('harvest_date')
+                    ->label('Tanggal Panen')
+                    ->date()
+                    ->sortable(),
+                TextColumn::make('yield_weight')
+                    ->label('Berat Hasil Panen (kg)')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('latitude')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('longitude')
+                TextColumn::make('statusPanen.status_panen')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

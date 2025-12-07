@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Komoditas;
 
 use App\Filament\Resources\Komoditas\Pages\ManageKomoditas;
+use App\Filament\Resources\Komoditas\RelationManagers\VarietasRelationManager;
 use App\Models\Komoditas;
 use BackedEnum;
 use UnitEnum;
@@ -16,10 +17,14 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use App\Filament\Resources\Komoditas\Pages\CreateKomoditas;
+use App\Filament\Resources\Komoditas\Pages\EditKomoditas;
 
 class KomoditasResource extends Resource
 {
     protected static ?string $model = Komoditas::class;
+    protected static ?string $modelLabel = 'Komoditas';
+    protected static ?string $pluralModelLabel = 'Daftar Komoditas';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
     
@@ -46,6 +51,7 @@ class KomoditasResource extends Resource
             ->recordTitleAttribute('Komoditas')
             ->columns([
                 TextColumn::make('komoditas_name')
+                    ->label('Nama Komoditas')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -70,10 +76,19 @@ class KomoditasResource extends Resource
             ]);
     }
 
+    public static function getRelations(): array
+    {
+        return [
+            VarietasRelationManager::class,
+        ];
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => ManageKomoditas::route('/'),
+            'create' => CreateKomoditas::route('/create'),
+            'edit' => EditKomoditas::route('/{record}/edit'),
         ];
     }
 }

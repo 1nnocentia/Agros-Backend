@@ -23,6 +23,9 @@ use Filament\Tables\Filters\TernaryFilter;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\Action;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
+use Filament\Tables\Filters\SelectFilter;
 
 
 class UserResource extends Resource
@@ -53,13 +56,16 @@ class UserResource extends Resource
         return $schema
             ->schema([
                 TextInput::make('name')
+                    ->label('Nama')
                     ->required()
                     ->maxLength(255),
                 TextInput::make('email')
+                    ->label('Email')
                     ->email()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
                 TextInput::make('phone_number')
+                    ->label('No. HP')
                     ->maxLength(20)
                     ->placeholder('Contoh: 08123456789')
                     ->regex('/^08[1-9][0-9]{7,11}$/')
@@ -75,6 +81,15 @@ class UserResource extends Resource
                     ->relationship(name: 'role', titleAttribute: 'role_name')
                     ->preload()
                     ->required(),
+                Select::make('kelompok_tani_id')
+                    ->label('Kelompok Tani')
+                    ->relationship('kelompokTani', 'kelompok_tani')
+                    ->searchable()
+                    ->preload()
+                    ->nullable()
+                    ->hidden(fn ($get) => $get('role_id') != 2)
+                    ->dehydrated(fn ($get) => $get('role_id') == 2)
+                    ->required(fn ($get) => $get('role_id') == 2),
             ]);
     }
 
@@ -126,6 +141,11 @@ class UserResource extends Resource
                     ->placeholder('Semua')
                     ->trueLabel('Aktif')
                     ->falseLabel('Tidak Aktif'),
+                SelectFilter::make('role_id')
+                    ->label('Filter Role')
+                    ->relationship('role', 'role_name')
+                    ->preload()
+                    ->searchable(),
             ])
             ->actions([
                 Action::make('toggle_status')
@@ -140,7 +160,7 @@ class UserResource extends Resource
                     }),
                 EditAction::make(),
                 DeleteAction::make(),
-            ]);
+                ]);
     }
 
     public static function getRelations(): array

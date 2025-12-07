@@ -27,6 +27,7 @@ use App\Filament\Resources\Varietas\VarietasResource;
 use App\Filament\Resources\DataPanens\DataPanenResource;
 use App\Filament\Resources\Lahans\LahanResource;
 use Filament\Navigation\NavigationGroup;
+use Filament\Support\Enums\MaxWidth;
 
 class AdminDashboardPanelProvider extends PanelProvider
 {
@@ -46,9 +47,7 @@ class AdminDashboardPanelProvider extends PanelProvider
                 UserResource::class,
                 KelompokTaniResource::class,
                 KomoditasResource::class,
-                VarietasResource::class,
                 DataTanamResource::class,
-                DataPanenResource::class,
             ])
             ->navigationGroups([
                 NavigationGroup::make()
@@ -56,6 +55,7 @@ class AdminDashboardPanelProvider extends PanelProvider
                 NavigationGroup::make()
                     ->label('Master Data'),
             ])
+            ->topNavigation()
             ->collapsibleNavigationGroups(true)
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
@@ -77,6 +77,7 @@ class AdminDashboardPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            // ->maxContentWidth('fit')
             ->authMiddleware([
                 Authenticate::class,
             ]);
