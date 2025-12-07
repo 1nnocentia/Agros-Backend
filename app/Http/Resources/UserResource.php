@@ -24,7 +24,9 @@ class UserResource extends JsonResource
             'isActive' => $this->isActive,
 
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
+
+            'daftar_lahan' => LahanResource::collection($this->whenLoaded('lahan')),
         ];
     }
 }
