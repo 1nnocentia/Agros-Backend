@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\StatusTanam;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -29,8 +30,9 @@ class DataTanamResource extends JsonResource
                 'id' => $this->status_tanam_id,
                 'label' => $this->statusTanam->name ?? 'Unknown',
                 'warna' => match($this->status_tanam_id) {
-                    2 => 'success',
-                    3 => 'warning',
+                    StatusTanam::AKTIF => 'warning',
+                    StatusTanam::PANEN => 'success',
+                    StatusTanam::GAGAL => 'danger',
                     default => 'gray'
                 }
             ],

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\StatusPanen;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
@@ -26,11 +27,12 @@ class DataPanenResource extends JsonResource
             'jumlah_display' => $this->yield_weight . ' Ton',
             'status_panen' => [
                 'id' => $this->status_panen_id,
-                'label' => $this->statusPanen->name ?? 'Unknown',
+                'label' => $this->statusPanen->status_panen ?? 'Unknown', 
                 'warna' => match($this->status_panen_id) {
-                    2 => 'success',
-                    3 => 'danger',
-                    default => 'warning'
+                    StatusPanen::PENDING => 'warning',
+                    StatusPanen::VERIFIED => 'success',
+                    StatusPanen::CORRECTED => 'danger',
+                    default => 'gray'
                 }
             ],
         ];
