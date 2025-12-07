@@ -27,6 +27,7 @@ use App\Filament\Resources\Varietas\VarietasResource;
 use App\Filament\Resources\DataPanens\DataPanenResource;
 use App\Filament\Resources\Lahans\LahanResource;
 use Filament\Navigation\NavigationGroup;
+use Filament\Support\Enums\MaxWidth;
 
 class AdminDashboardPanelProvider extends PanelProvider
 {
@@ -76,6 +77,7 @@ class AdminDashboardPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            // ->maxContentWidth('fit')
             ->authMiddleware([
                 Authenticate::class,
             ]);

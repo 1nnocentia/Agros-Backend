@@ -25,6 +25,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\Action;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Tables\Filters\SelectFilter;
 
 
 class UserResource extends Resource
@@ -140,6 +141,11 @@ class UserResource extends Resource
                     ->placeholder('Semua')
                     ->trueLabel('Aktif')
                     ->falseLabel('Tidak Aktif'),
+                SelectFilter::make('role_id')
+                    ->label('Filter Role')
+                    ->relationship('role', 'role_name')
+                    ->preload()
+                    ->searchable(),
             ])
             ->actions([
                 Action::make('toggle_status')
@@ -154,7 +160,7 @@ class UserResource extends Resource
                     }),
                 EditAction::make(),
                 DeleteAction::make(),
-            ]);
+                ]);
     }
 
     public static function getRelations(): array

@@ -15,10 +15,16 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class LahanRelationManager extends RelationManager
 {
     protected static string $relationship = 'lahan';
+
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return $ownerRecord->role_id === 2;
+    }
 
     public function form(Schema $schema): Schema
     {
