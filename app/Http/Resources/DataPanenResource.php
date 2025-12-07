@@ -24,7 +24,7 @@ class DataPanenResource extends JsonResource
                 : '-',
             'jumlah_panen' => (float) $this->yield_weight,
             'jumlah_display' => $this->yield_weight . ' Ton',
-            'status' => [
+            'status_panen' => [
                 'id' => $this->status_panen_id,
                 'label' => $this->statusPanen->name ?? 'Unknown',
                 'warna' => match($this->status_panen_id) {

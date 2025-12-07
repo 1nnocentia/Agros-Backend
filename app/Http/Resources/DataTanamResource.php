@@ -30,8 +30,8 @@ class DataTanamResource extends JsonResource
                 'label' => $this->statusTanam->name ?? 'Unknown',
                 'warna' => match($this->status_tanam_id) {
                     2 => 'success',
-                    3 => 'danger',
-                    default => 'warning'
+                    3 => 'warning',
+                    default => 'gray'
                 }
             ],
 
