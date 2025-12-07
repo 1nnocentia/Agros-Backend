@@ -54,6 +54,7 @@ class AdminDashboardPanelProvider extends PanelProvider
                 NavigationGroup::make()
                     ->label('Master Data'),
             ])
+            ->topNavigation()
             ->collapsibleNavigationGroups(true)
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([

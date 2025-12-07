@@ -23,6 +23,8 @@ use App\Filament\Resources\Komoditas\Pages\EditKomoditas;
 class KomoditasResource extends Resource
 {
     protected static ?string $model = Komoditas::class;
+    protected static ?string $modelLabel = 'Komoditas';
+    protected static ?string $pluralModelLabel = 'Daftar Komoditas';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
     

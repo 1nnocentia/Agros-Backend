@@ -47,6 +47,7 @@ class KelompokTaniResource extends Resource
         return $schema
             ->components([
                 TextInput::make('kelompok_tani')
+                    ->label('Nama Kelompok Tani')
                     ->required(),
             ]);
     }
@@ -82,7 +83,7 @@ class KelompokTaniResource extends Resource
     public static function getRelations(): array
     {
         return [
-            UsersRelationManager::class,
+            RelationManagers\UsersRelationManager::class,
         ];
     }
 

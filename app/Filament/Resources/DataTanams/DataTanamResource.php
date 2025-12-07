@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Builder;
 class DataTanamResource extends Resource
 {
     protected static ?string $model = DataTanam::class;
+    protected static ?string $modelLabel = 'Data Tanam';
+    protected static ?string $pluralModelLabel = 'Daftar Data Tanam';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 

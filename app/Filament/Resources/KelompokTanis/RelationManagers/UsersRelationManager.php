@@ -2,22 +2,32 @@
 
 namespace App\Filament\Resources\KelompokTanis\RelationManagers;
 
-use Filament\Actions\AssociateAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\CreateAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\DissociateAction;
-use Filament\Actions\DissociateBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Forms\Components\DateTimePicker;
+use App\Models\User;
+use Filament\Forms;
+use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Set;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Schemas\Schema;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Actions;
+use Filament\Actions\CreateAction;
+use Filament\Actions\AssociateAction;
+use Filament\Actions\DissociateAction;
+use Filament\Actions\DissociateBulkAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Hash;
+
 
 class UsersRelationManager extends RelationManager
 {
@@ -26,25 +36,48 @@ class UsersRelationManager extends RelationManager
     public function form(Schema $schema): Schema
     {
         return $schema
-            ->components([
+            ->schema([
                 TextInput::make('name')
-                    ->required(),
+                    ->label('Nama')
+                    ->required()
+                    ->maxLength(255),
+                
                 TextInput::make('phone_number')
+                    ->label('Nomor Telepon')
                     ->tel()
                     ->default(null),
+
                 Toggle::make('wa_verified')
-                    ->required(),
+                    ->label('WA Verified')
+                    ->required()
+                    ->live()
+                    ->afterStateUpdated(function ($set, $state) {
+                        $set('wa_verified_at', $state ? now() : null);
+                    }),
+
+                DateTimePicker::make('wa_verified_at')
+                    ->label('Tgl Verifikasi WA')
+                    ->readOnly()
+                    ->dehydrated()
+                    ->hidden(),
                 TextInput::make('email')
-                    ->label('Email address')
+                    ->label('Email')
                     ->email()
                     ->default(null),
-                DateTimePicker::make('email_verified_at'),
+                
+                Select::make('role_id')
+                    ->label('Role')
+                    ->relationship(name: 'role', titleAttribute: 'role_name')
+                    ->preload()
+                    ->required()
+                    ->hidden(),
                 TextInput::make('password')
                     ->password()
-                    ->default(null),
-                TextInput::make('role_id')
-                    ->required()
-                    ->numeric(),
+                    ->revealable()
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->required(fn (string $context): bool => $context === 'create')
+                    ->visibleOn('create')
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state)),
             ]);
     }
 
@@ -54,28 +87,27 @@ class UsersRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')
+                    ->label('Nama')
                     ->searchable(),
+                
                 TextColumn::make('phone_number')
+                    ->label('Nomor Telepon')
                     ->searchable(),
+                
                 IconColumn::make('wa_verified')
+                    ->label('Verisikasi WA')
                     ->boolean(),
+
+                TextColumn::make('wa_verified_at')
+                    ->label('Tgl Verified')
+                    ->dateTime('d M Y')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('email')
-                    ->label('Email address')
+                    ->label('Email')
                     ->searchable(),
-                TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
-                TextColumn::make('role_id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                
             ])
             ->filters([
                 //
@@ -84,12 +116,44 @@ class UsersRelationManager extends RelationManager
                 CreateAction::make(),
                 AssociateAction::make(),
             ])
-            ->recordActions([
+            ->actions([
                 EditAction::make(),
+                
+                Action::make('resetPassword')
+                    ->label('Reset Pass')
+                    ->icon('heroicon-o-key')
+                    ->color('warning')
+                    ->requiresConfirmation()
+                    ->modalHeading('Reset Password User')
+                    ->form([
+                        TextInput::make('new_password')
+                            ->label('Password Baru')
+                            ->password()
+                            ->revealable()
+                            ->required()
+                            ->minLength(8)
+                            ->confirmed(),
+                        TextInput::make('new_password_confirmation')
+                            ->label('Konfirmasi Password')
+                            ->password()
+                            ->revealable()
+                            ->required(),
+                    ])
+                    ->action(function (User $record, array $data) {
+                        $record->update([
+                            'password' => Hash::make($data['new_password']),
+                        ]);
+
+                        Notification::make()
+                            ->title('Password Berhasil Direset')
+                            ->success()
+                            ->send();
+                    }),
+
                 DissociateAction::make(),
                 DeleteAction::make(),
             ])
-            ->toolbarActions([
+            ->bulkActions([
                 BulkActionGroup::make([
                     DissociateBulkAction::make(),
                     DeleteBulkAction::make(),
