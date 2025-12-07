@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use App\Models\Role;
 
 class AuthController extends Controller
 {
@@ -17,18 +18,14 @@ class AuthController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
             'phone_number' => 'nullable|string|max:20',
         ]);
 
         // Create user dengan role_id = 2 (Petani)
         $user = User::create([
             'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
             'phone_number' => $validated['phone_number'] ?? null,
-            'role_id' => 2, // Auto-assign sebagai Petani
+            'role_id' => Role::PETANI,
             'wa_verified' => false,
         ]);
 
