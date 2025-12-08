@@ -16,6 +16,7 @@ class DataPanenResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $isVerified = $this->status_panen_id === StatusPanen::VERIFIED;
         return [
             'id' => $this->id,
             'data_tanam_id' => $this->data_tanam_id,
@@ -36,7 +37,7 @@ class DataPanenResource extends JsonResource
                 }
             ],
 
-            'show_verify_button' => ! $isVerified = $this->status_panen_id !== StatusPanen::VERIFIED,
+            'show_verify_button' => ! $isVerified,
 
             'helper_text' => $isVerified
                 ? 'Data sudah diverifikasi.'
