@@ -8,6 +8,8 @@ use App\Http\Resources\KomoditasResource;
 use App\Models\Komoditas;
 use App\Models\Varietas;
 use App\Http\Resources\VarietasResource;
+use App\Models\KelompokTani;
+use App\Http\Resources\KelompokTaniResource;
 
 class MasterDataController extends Controller
 {
@@ -27,5 +29,23 @@ class MasterDataController extends Controller
         }
 
         return VarietasResource::collection($query->get());
+    }
+
+    public function varietasByKomoditas($komoditas_id)
+    {
+        $data = Varietas::where('komoditas_id', $komoditas_id)->get();
+
+        return VarietasResource::collection($data);
+    }
+
+    public function kelompokTani (Request $request)
+    {
+        $query = KelompokTani::query();
+
+        if ($request->has('search')) {
+            $query->where('kelompok_tani', 'like', '%' . $request->search . '%');
+        }
+
+        return KelompokTaniResource::collection($query->get());
     }
 }

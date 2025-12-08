@@ -15,20 +15,17 @@ class UserController extends Controller
         $validated = $request->validate([
             'name'  => 'sometimes|string|max:255',
             'phone' => 'sometimes|string|max:20',
+            'kelompok_tani_id' => 'sometimes|exists:kelompok_tani,id',
         ]);
 
 
-        $user->fill($request->only(['name', 'phone']));
+        $user->fill($request->only(['name', 'phone', 'kelompok_tani_id']));
         $user->save();
 
 
         $user->load(['kelompokTani', 'lahan']);
         
-        return response()->json([
-            'status'  => 'success',
-            'message' => 'Profil berhasil diperbarui',
-            'data'    => new UserResource($user),
-        ]);
+        return new UserResource($user);
     }
 
     /**

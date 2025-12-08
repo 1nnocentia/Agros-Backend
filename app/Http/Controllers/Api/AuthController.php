@@ -20,6 +20,7 @@ class AuthController extends Controller
         $validated = $request->validate([
             'phone_number' => ['required', 'string', 'max:20'],
             // 'firebase_token' => ['required', 'string'],
+            'kelompok_tani_id' => ['nullable', 'exists:kelompok_tani,id'],
         ]);
 
         $user = User::firstOrCreate(
@@ -28,6 +29,7 @@ class AuthController extends Controller
                 'name' => 'Petani',
                 'role_id' => Role::PETANI,
                 'wa_verified' => false,
+                'kelompok_tani_id' => $request->kelompok_tani_id ?? null,
             ]
         );
 
