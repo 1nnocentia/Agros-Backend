@@ -14,6 +14,9 @@ class KelompokTaniResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'nama_kelompok_tani' => $this->kelompok_tani,
+        ];
     }
 }
