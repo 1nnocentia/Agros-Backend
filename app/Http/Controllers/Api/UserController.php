@@ -30,4 +30,24 @@ class UserController extends Controller
             'data'    => new UserResource($user),
         ]);
     }
+
+    /**
+     * Update FCM Token (Untuk Notifikasi)
+     * Method: POST /api/fcm-token
+     */
+    public function updateFcmToken(Request $request)
+    {
+        $request->validate([
+            'fcm_token' => 'required|string',
+        ]);
+
+        $request->user()->update([
+            'fcm_token' => $request->fcm_token
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Token notifikasi berhasil disimpan'
+        ]);
+    }
 }

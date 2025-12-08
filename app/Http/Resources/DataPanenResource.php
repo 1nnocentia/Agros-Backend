@@ -35,6 +35,12 @@ class DataPanenResource extends JsonResource
                     default => 'gray'
                 }
             ],
+
+            'show_verify_button' => ! $isVerified = $this->status_panen_id !== StatusPanen::VERIFIED,
+
+            'helper_text' => $isVerified
+                ? 'Data sudah diverifikasi.'
+                : 'Mohon periksa kembali data Anda, lalu tekan Verifikasi.',
         ];
     }
 }
