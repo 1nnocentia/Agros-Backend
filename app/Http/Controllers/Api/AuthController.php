@@ -50,7 +50,7 @@ class AuthController extends Controller
     /**
      * Current User
      */
-    public function profile(Request $request)
+    public function me(Request $request)
     {
         $user = $request->user();
         
