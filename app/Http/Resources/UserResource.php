@@ -15,16 +15,22 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'phone_number' => $this->phone_number,
             'wa_verified' => $this->wa_verified,
 
-            'kelompok_tani' => $this->kelompokTani->nama ?? null,
+            'kelompok_tani' => $this->kelompokTani ? [
+                'id' => $this->kelompokTani->id,
+                'name' => $this->kelompokTani->name,
+            ] : null,
             'role' => $this->role->role_name ?? 'Petani',
             'isActive' => $this->isActive,
 
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
+
+            'daftar_lahan' => LahanResource::collection($this->whenLoaded('lahan')),
         ];
     }
 }
