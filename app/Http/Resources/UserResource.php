@@ -19,7 +19,10 @@ class UserResource extends JsonResource
             'phone_number' => $this->phone_number,
             'wa_verified' => $this->wa_verified,
 
-            'kelompok_tani' => $this->kelompokTani->nama ?? null,
+            'kelompok_tani' => $this->kelompokTani ? [
+                'id' => $this->kelompokTani->id,
+                'name' => $this->kelompokTani->name,
+            ] : null,
             'role' => $this->role->role_name ?? 'Petani',
             'isActive' => $this->isActive,
 

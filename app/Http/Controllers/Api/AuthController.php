@@ -14,14 +14,13 @@ class AuthController extends Controller
     /**
      * Register user baru dari Flutter (auto-assign sebagai Petani)
      */
-    public function register(Request $request)
+    public function loginWithPhone(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'phone_number' => 'nullable|string|max:20',
         ]);
 
-        // Create user dengan role_id = 2 (Petani)
         $user = User::create([
             'name' => $validated['name'],
             'phone_number' => $validated['phone_number'] ?? null,
@@ -29,7 +28,6 @@ class AuthController extends Controller
             'wa_verified' => false,
         ]);
 
-        // Generate token untuk mobile app
         $token = $user->createToken('mobile-app')->plainTextToken;
 
         return response()->json([
@@ -37,7 +35,6 @@ class AuthController extends Controller
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
-                'email' => $user->email,
                 'phone_number' => $user->phone_number,
                 'role' => $user->role->role_name ?? 'Petani',
             ],
