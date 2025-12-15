@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreLahanRequest;
+use App\Http\Requests\UpdateLahanRequest;
 use App\Http\Resources\LahanResource;
 use App\Models\Lahan;
 
@@ -20,15 +22,9 @@ class LahanController extends Controller
         return LahanResource::collection($lahan);
     }
 
-    public function store (Request $request)
+    public function store (StoreLahanRequest $request)
     {
-        $validated = $request->validate([
-            'land_area' => 'required|numeric|min:0.01',
-            'latitude'  => 'required|numeric|between:-90,90',
-            'longitude' => 'required|numeric|between:-180,180',
-        ]);
-
-        $lahan = $request->user()->lahan()->create($validated);
+        $lahan = $request->user()->lahan()->create($request->validated());
 
         return new LahanResource($lahan);
     }
@@ -44,19 +40,9 @@ class LahanController extends Controller
         return new LahanResource($lahan);
     }
 
-    public function update (Request $request, Lahan $lahan)
+    public function update (UpdateLahanRequest $request, Lahan $lahan)
     {
-        if ($lahan->user_id !== $request->user()->id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        $validated = $request->validate([
-            'land_area' => 'sometimes|required|numeric|min:0.01',
-            'latitude'  => 'sometimes|required|numeric|between:-90,90',
-            'longitude' => 'sometimes|required|numeric|between:-180,180',
-        ]);
-
-        $lahan->update($validated);
+        $lahan->update($request->validated());
 
         return new LahanResource($lahan);
     }

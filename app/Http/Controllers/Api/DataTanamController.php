@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreDataTanamRequest;
+use App\Http\Requests\UpdateDataTanamRequest;
 use App\Models\DataTanam;
 use App\Models\StatusTanam;
 use App\Http\Resources\DataTanamResource;
@@ -37,40 +39,23 @@ class DataTanamController extends Controller
         return new DataTanamResource($tanam);
     }
 
-    public function store (Request $request)
+    public function store (StoreDataTanamRequest $request)
     {
-        $validated = $request->validate([
-            'planting_date' => 'required|date',
-            'lahan_id'      => 'required|exists:lahan,id',
-            'varietas_id'   => 'required|exists:varietas,id',
-        ]);
-
         $tanam = DataTanam::create([
-            'lahan_id'      => $validated['lahan_id'],
-            'varietas_id'   => $validated['varietas_id'],
-            'planting_date' => $validated['planting_date'],
+            ...$request->validated(),
             'status_tanam_id' => StatusTanam::AKTIF,
         ]);
-        $tanam ->load(['statusTanam']);
+        $tanam->load(['lahan.user.kelompokTani', 'varietas.komoditas', 'statusTanam']);
 
         return new DataTanamResource($tanam);
     }
 
-    public function update (Request $request, $id)
+    public function update (UpdateDataTanamRequest $request, $id)
     {
         $tanam = DataTanam::findOrFail($id);
-        $validated = $request->validate([
-            'lahan_id'      => 'sometimes|exists:lahan,id',
-            'komoditas_id'  => 'sometimes|exists:komoditas,id',
-            'varietas_id'   => 'sometimes|exists:varietas,id',
-            'planting_date' => 'sometimes|date',
-            'status_tanam_id' => 'sometimes|in:' . implode(',', [
-                StatusTanam::AKTIF,
-                StatusTanam::PANEN,
-                StatusTanam::GAGAL,
-            ]),
-        ]);
-        $tanam->update($validated);
+        $tanam->update($request->validated());
+        $tanam->load(['lahan.user.kelompokTani', 'varietas.komoditas', 'statusTanam']);
+        
         return new DataTanamResource($tanam);
     }
 

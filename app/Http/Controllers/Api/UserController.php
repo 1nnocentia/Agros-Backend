@@ -4,24 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
-    public function update(Request $request)
+    public function update(UpdateProfileRequest $request)
     {
         $user = $request->user();
-
-        $validated = $request->validate([
-            'name'  => 'sometimes|string|max:255',
-            'phone' => 'sometimes|string|max:20',
-            'kelompok_tani_id' => 'sometimes|exists:kelompok_tani,id',
-        ]);
-
-        $user->fill($request->only(['name', 'phone', 'kelompok_tani_id']));
-        $user->save();
-
-
+        $user->update($request->validated());
         $user->load(['kelompokTani', 'lahan']);
         
         return new UserResource($user);

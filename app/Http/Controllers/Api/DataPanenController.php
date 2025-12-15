@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DataPanenResource;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreDataPanenRequest;
+use App\Http\Requests\UpdateDataPanenRequest;
 use App\Models\DataPanen;
 use App\Models\StatusPanen;
 use App\Models\StatusTanam;
@@ -40,43 +42,33 @@ class DataPanenController extends Controller
         return new DataPanenResource($panen);
     }
 
-    public function store(Request $request)
+    public function store(StoreDataPanenRequest $request)
     {
-        $validated = $request->validate([
-            'data_tanam_id' => 'required|exists:data_tanam,id',
-            'harvest_date'  => 'required|date',
-            'yield_weight'  => 'required|numeric|min:0.1',
-        ]);
-
-        $dataTanam = DataPanen::findOrFail($request->data_tanam_id);
+        $dataTanam = DataTanam::findOrFail($request->data_tanam_id);
 
         if ($dataTanam->status_tanam_id === StatusTanam::GAGAL) {
-        return response()->json([
-            'message' => 'Gagal menambahkan data panen. Data tanam ini statusnya Gagal.',
+            return response()->json([
+                'message' => 'Gagal menambahkan data panen. Data tanam ini statusnya Gagal.',
             ], 422);
         }
 
         $panen = DataPanen::create([
-            'data_tanam_id'   => $validated['data_tanam_id'],
-            'harvest_date'    => $validated['harvest_date'],
-            'yield_weight'    => $validated['yield_weight'],
-            
-            'status_panen_id' => StatusPanen::PENDING, 
+            ...$request->validated(),
+            'status_panen_id' => StatusPanen::PENDING,
         ]);
+        $panen->load(['dataTanam.varietas.komoditas', 'statusPanen']);
+        
         return new DataPanenResource($panen);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateDataPanenRequest $request, $id)
     {
         $panen = DataPanen::findOrFail($id);
-
-        $validated = $request->validate([
-            'harvest_date'  => 'sometimes|date',
-            'yield_weight'  => 'sometimes|numeric|min:0.1',
+        $panen->update([
+            ...$request->validated(),
             'status_panen_id' => StatusPanen::CORRECTED,
         ]);
-
-        $panen->update($validated);
+        $panen->load(['dataTanam.varietas.komoditas', 'statusPanen']);
 
         return new DataPanenResource($panen);
     }
