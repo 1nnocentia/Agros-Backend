@@ -28,12 +28,12 @@ class DataTanamResource extends JsonResource
 
             'kelompok_tani' => [
                 'id' => $this->lahan->user->kelompokTani->id ?? null,
-                'nama' => $this->lahan->user->kelompokTani->nama_kelompok ?? null,
+                'nama' => $this->lahan->user->kelompokTani->kelompok_tani ?? null,
             ],
 
             'status_tanam' => [
                 'id' => $this->status_tanam_id,
-                'label' => $this->statusTanam->name ?? 'Unknown',
+                'label' => $this->statusTanam->status_tanam ?? 'Unknown',
                 'warna' => match($this->status_tanam_id) {
                     StatusTanam::AKTIF => 'warning',
                     StatusTanam::PANEN => 'success',

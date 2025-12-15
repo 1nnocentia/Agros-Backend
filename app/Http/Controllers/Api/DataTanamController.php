@@ -64,14 +64,20 @@ class DataTanamController extends Controller
         return new DataTanamResource($tanam);
     }
 
-    public function showOnGoing (DataTanam $dataTanam)
+    public function showOnGoing (Request $request)
     {
-        if($dataTanam->status_tanam_id != StatusTanam::AKTIF){
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-            ], 404);
-        }
+        $userId = $request->user()->id;
+        
+        // Ambil semua data tanam dengan status AKTIF milik user
+        $tanamAktif = DataTanam::query()
+            ->with(['lahan.user.kelompokTani', 'varietas.komoditas', 'statusTanam'])
+            ->whereHas('lahan', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->where('status_tanam_id', StatusTanam::AKTIF)
+            ->latest('planting_date')
+            ->paginate(5);
 
-        return new DataTanamResource($dataTanam);
+        return DataTanamResource::collection($tanamAktif);
     }
 }

@@ -30,14 +30,14 @@ class DataPanenController extends Controller
         return DataPanenResource::collection($riwayatPanen);
     }
 
-    public function show(Request $request, $id)
+    public function show(Request $request, $dataPanen)
     {
         $userId = $request->user()->id;
         $panen = DataPanen::with(['dataTanam.varietas.komoditas', 'statusPanen'])
             ->whereHas('dataTanam.lahan', function ($query) use ($userId) {
                 $query->where('user_id', $userId);
             })
-            ->findOrFail($id);
+            ->findOrFail($dataPanen);
 
         return new DataPanenResource($panen);
     }
@@ -61,20 +61,37 @@ class DataPanenController extends Controller
         return new DataPanenResource($panen);
     }
 
-    public function update(UpdateDataPanenRequest $request, $id)
+    public function update(UpdateDataPanenRequest $request, $dataPanen)
     {
-        $panen = DataPanen::findOrFail($id);
+        $userId = $request->user()->id;
+        
+        $panen = DataPanen::with(['dataTanam.lahan', 'dataTanam.varietas.komoditas', 'statusPanen'])
+            ->whereHas('dataTanam.lahan', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->findOrFail($dataPanen);
+        
         $panen->update([
             ...$request->validated(),
             'status_panen_id' => StatusPanen::CORRECTED,
         ]);
+        
+        $panen->refresh();
         $panen->load(['dataTanam.varietas.komoditas', 'statusPanen']);
 
         return new DataPanenResource($panen);
     }
 
-    public function verify (DataPanen $dataPanen)
+    public function verify (Request $request, $dataPanen)
     {
+        $userId = $request->user()->id;
+        
+        $dataPanen = DataPanen::with(['dataTanam.lahan', 'dataTanam.varietas.komoditas', 'statusPanen'])
+            ->whereHas('dataTanam.lahan', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->findOrFail($dataPanen);
+
         if ($dataPanen->status_panen_id === StatusPanen::VERIFIED) {
             return response()->json(['message' => 'Data sudah terverifikasi sebelumnya.'], 400);
         }
@@ -82,6 +99,9 @@ class DataPanenController extends Controller
         $dataPanen->update([
             'status_panen_id' => StatusPanen::VERIFIED,
         ]);
+        
+        // $dataPanen->refresh();
+        $dataPanen->load(['dataTanam.varietas.komoditas', 'statusPanen']);
 
         return new DataPanenResource($dataPanen);
     }

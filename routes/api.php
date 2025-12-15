@@ -32,16 +32,14 @@ Route::middleware('auth:sanctum')->group(function () {
     // CRUD Lahan
     Route::apiResource('lahan', LahanController::class);
 
-    // data tanam = status tanam = aktif
-    Route::get('/tanam/{dataTanam}/ongoing', [DataTanamController::class, 'showOnGoing']);
+    // List data tanam yang sedang aktif
+    Route::get('/tanam/ongoing', [DataTanamController::class, 'showOnGoing']);
     
-    // CRUD Data Tanam (hanya POST dan PATCH)
-    Route::post('/tanam', [DataTanamController::class, 'store']);
-    Route::patch('/tanam/{dataTanam}', [DataTanamController::class, 'update']);
-    
-    // Lihat Riwayat Tanam (List & Detail) - dari DataPanenController
-    Route::get('/tanam', [DataPanenController::class, 'index']);
-    Route::get('/tanam/{dataTanam}', [DataPanenController::class, 'show']);
+    // CRUD Data Tanam
+    Route::get('/tanam', [DataTanamController::class, 'index']); 
+    Route::post('/tanam', [DataTanamController::class, 'store']); 
+    Route::get('/tanam/{dataTanam}', [DataTanamController::class, 'show']); 
+    Route::patch('/tanam/{dataTanam}', [DataTanamController::class, 'update']); 
 
     // Lihat Riwayat Panen (List & Detail)
     Route::get('/panen', [DataPanenController::class, 'index']);
