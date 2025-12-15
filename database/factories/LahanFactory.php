@@ -23,6 +23,7 @@ class LahanFactory extends Factory
                 $petani = User::where('role_id', 2)->inRandomOrder()->first();
                 return $petani ? $petani->id : User::factory()->create(['role_id' => 2])->id;
             },
+            'lahan_name' => $this->faker->word(),
             'land_area' => $this->faker->randomFloat(2, 0.5, 10),
             'latitude' => $this->faker->latitude(-5, -6),
             'longitude' => $this->faker->longitude(119, 120),

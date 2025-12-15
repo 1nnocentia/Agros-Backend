@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('lahan', function (Blueprint $table) {
             $table->id();
+            $table->string('lahan_name');
             $table->decimal('land_area', 8, 2);
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();

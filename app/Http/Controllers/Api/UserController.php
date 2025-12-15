@@ -18,7 +18,6 @@ class UserController extends Controller
             'kelompok_tani_id' => 'sometimes|exists:kelompok_tani,id',
         ]);
 
-
         $user->fill($request->only(['name', 'phone', 'kelompok_tani_id']));
         $user->save();
 

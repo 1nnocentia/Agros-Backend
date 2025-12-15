@@ -18,22 +18,37 @@ class AuthController extends Controller
     public function loginWithPhone(Request $request)
     {
         $validated = $request->validate([
-            'phone_number' => ['required', 'string', 'max:20'],
+            'phone_number' => [
+                'required', 
+                'string', 
+                'regex:/^(\+62|62|0)8[1-9][0-9]{6,11}$/'],
             // 'firebase_token' => ['required', 'string'],
-            'kelompok_tani_id' => ['nullable', 'exists:kelompok_tani,id'],
-        ]);
+        ],
+        [
+            'phone_number.required' => 'Nomor telepon wajib diisi.',
+            'phone_number.regex' => 'Format nomor telepon tidak valid. Gunakan format 08xxxxxxxxx.',
+        ]
+    );
+
+    $phoneNumber = $validated['phone_number'];
+    $phoneNumber = preg_replace('/[^0-9]/', '', $phoneNumber);
+
+    if (substr($phoneNumber, 0, 1) === '0') {
+            $phoneNumber = '62' . substr($phoneNumber, 1);
+        } elseif (substr($phoneNumber, 0, 2) === '62') {
+            $phoneNumber = $phoneNumber;
+        }
 
         $user = User::firstOrCreate(
-            ['phone_number' => $validated['phone_number']],
+            ['phone_number' => $phoneNumber],
             [
                 'name' => 'Petani',
                 'role_id' => Role::PETANI,
                 'wa_verified' => false,
-                'kelompok_tani_id' => $request->kelompok_tani_id ?? null,
             ]
         );
 
-        if ($user->Role::PETANI) {
+        if ($user->role_id !== Role::PETANI) {
             return response()->json([
                 'message' => 'Akses ditolak. Akun ini bukan akun Petani.',
             ], 403);

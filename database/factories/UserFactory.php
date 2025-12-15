@@ -35,7 +35,7 @@ class UserFactory extends Factory
             'role_id' => $roleId,
             'kelompok_tani_id' => ($roleId === 2) ? random_int(1, 5) : null,
             'wa_verified' => random_int(0, 1) === 1,
-            'phone_number' => fake()->phoneNumber(),
+            'phone_number' => '628' . fake()->numerify('#########'),
         ];
     }
 

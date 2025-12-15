@@ -11,6 +11,7 @@ class Lahan extends Model
     protected $table = 'lahan';
     protected $fillable = [
         'user_id',
+        'lahan_name',
         'land_area',
         'latitude',
         'longitude',

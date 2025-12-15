@@ -18,8 +18,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'profile']);
     
     // update profile
-    Route::post('/profile', [UserController::class, 'update']);
-    Route::post('/fcm-token', [UserController::class, 'updateFcmToken']);
+    Route::patch('/profile', [UserController::class, 'update']);
+    Route::patch('/fcm-token', [UserController::class, 'updateFcmToken']);
 
 
     // Untuk dropdown menu
@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // CRUD Data Tanam
     Route::apiResource('tanam', DataTanamController::class);
+    Route::patch('/tanam/{dataTanam}', [DataTanamController::class, 'update']);
 
     // Lihat Riwayat Panen (List & Detail)
     Route::get('/tanam', [DataPanenController::class, 'index']);
@@ -46,7 +47,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/panen', [DataPanenController::class, 'store']);
     
     // edit Data Panen (Status akan reset jadi Pending)
-    Route::put('/panen/{dataPanen}', [DataPanenController::class, 'update']);
+    Route::patch('/panen/{dataPanen}', [DataPanenController::class, 'update']);
     
     // verifikasi data melalui button verify
     Route::post('/panen/{dataPanen}/verify', [DataPanenController::class, 'verify']);

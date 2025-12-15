@@ -41,11 +41,8 @@ class DataTanamController extends Controller
     {
         $validated = $request->validate([
             'lahan_id'      => 'required|exists:lahan,id',
-            'komoditas_id'  => 'required|exists:komoditas,id',
             'varietas_id'   => 'required|exists:varietas,id',
             'planting_date' => 'required|date',
-
-            'status_tanam_id' => StatusTanam::AKTIF,
         ]);
 
         $tanam = DataTanam::create([
@@ -54,6 +51,8 @@ class DataTanamController extends Controller
             'planting_date' => $validated['planting_date'],
             'status_tanam_id' => StatusTanam::AKTIF,
         ]);
+        $tanam ->load(['lahan', 'varietas.komoditas', 'statusTanam']);
+
         return new DataTanamResource($tanam);
     }
 
