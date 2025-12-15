@@ -54,6 +54,8 @@ class AuthController extends Controller
             ], 403);
         }
 
+        $user->load(['kelompokTani', 'role']);
+
         $token = $user->createToken('mobile-app')->plainTextToken;
 
         return response()->json([

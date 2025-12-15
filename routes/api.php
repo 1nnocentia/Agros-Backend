@@ -35,14 +35,18 @@ Route::middleware('auth:sanctum')->group(function () {
     // data tanam = status tanam = aktif
     Route::get('/tanam/{dataTanam}/ongoing', [DataTanamController::class, 'showOnGoing']);
     
-    // CRUD Data Tanam
-    Route::apiResource('tanam', DataTanamController::class);
+    // CRUD Data Tanam (hanya POST dan PATCH)
+    Route::post('/tanam', [DataTanamController::class, 'store']);
     Route::patch('/tanam/{dataTanam}', [DataTanamController::class, 'update']);
-
-    // Lihat Riwayat Panen (List & Detail)
+    
+    // Lihat Riwayat Tanam (List & Detail) - dari DataPanenController
     Route::get('/tanam', [DataPanenController::class, 'index']);
     Route::get('/tanam/{dataTanam}', [DataPanenController::class, 'show']);
 
+    // Lihat Riwayat Panen (List & Detail)
+    Route::get('/panen', [DataPanenController::class, 'index']);
+    Route::get('/panen/{dataPanen}', [DataPanenController::class, 'show']);
+    
     // hasil panen -> input
     Route::post('/panen', [DataPanenController::class, 'store']);
     
@@ -51,9 +55,5 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // verifikasi data melalui button verify
     Route::post('/panen/{dataPanen}/verify', [DataPanenController::class, 'verify']);
-    
-    // Lihat Riwayat Panen (List & Detail)
-    Route::get('/panen', [DataPanenController::class, 'index']);
-    Route::get('/panen/{dataPanen}', [DataPanenController::class, 'show']);
 
 });

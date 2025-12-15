@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('data_tanam', function (Blueprint $table) {
             $table->id();
-            $table->date('planting_date');
+            $table->date('planting_date')->isNotEmpty;
 
-            $table->foreignId('lahan_id')->constrained('lahan')->onDelete('cascade')->index();
-            $table->foreignId('varietas_id')->constrained('varietas')->onDelete('cascade');
-            $table->foreignId('status_tanam_id')->constrained('status_tanam')->onDelete('cascade');
+            $table->foreignId('lahan_id')->constrained('lahan')->onDelete('cascade')->index()->isNotEmpty;
+            $table->foreignId('varietas_id')->constrained('varietas')->onDelete('cascade')->isNotEmpty;
+            $table->foreignId('status_tanam_id')->constrained('status_tanam')->onDelete('cascade')->isNotEmpty;
 
             $table->timestamps();
         });

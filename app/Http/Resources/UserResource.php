@@ -22,7 +22,7 @@ class UserResource extends JsonResource
 
             'kelompok_tani' => $this->kelompokTani ? [
                 'id' => $this->kelompokTani->id,
-                'name' => $this->kelompokTani->name,
+                'name' => $this->kelompokTani->kelompok_tani,
             ] : null,
             'role' => $this->role->role_name ?? 'Petani',
             'isActive' => $this->isActive,

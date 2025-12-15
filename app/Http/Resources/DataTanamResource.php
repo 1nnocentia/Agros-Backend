@@ -26,6 +26,11 @@ class DataTanamResource extends JsonResource
                 'nama_komoditas' => $this->varietas->komoditas->name,
             ],
 
+            'kelompok_tani' => [
+                'id' => $this->lahan->user->kelompokTani->id ?? null,
+                'nama' => $this->lahan->user->kelompokTani->nama_kelompok ?? null,
+            ],
+
             'status_tanam' => [
                 'id' => $this->status_tanam_id,
                 'label' => $this->statusTanam->name ?? 'Unknown',

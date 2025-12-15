@@ -15,7 +15,7 @@ class DataTanamController extends Controller
     {
         $userId = $request->user()->id;
         $riwayatTanam = DataTanam::query()
-            ->with(['lahan', 'varietas.komoditas', 'statusTanam'])
+            ->with(['lahan.user.kelompokTani', 'varietas.komoditas', 'statusTanam'])
             ->whereHas('lahan', function ($query) use ($userId) {
                 $query->where('user_id', $userId);
             })
@@ -28,7 +28,7 @@ class DataTanamController extends Controller
     public function show (Request $request, $id)
     {
         $userId = $request->user()->id;
-        $tanam = DataTanam::with(['lahan', 'varietas.komoditas', 'statusTanam'])
+        $tanam = DataTanam::with(['lahan.user.kelompokTani', 'varietas.komoditas', 'statusTanam'])
             ->whereHas('lahan', function ($query) use ($userId) {
                 $query->where('user_id', $userId);
             })
@@ -40,9 +40,9 @@ class DataTanamController extends Controller
     public function store (Request $request)
     {
         $validated = $request->validate([
+            'planting_date' => 'required|date',
             'lahan_id'      => 'required|exists:lahan,id',
             'varietas_id'   => 'required|exists:varietas,id',
-            'planting_date' => 'required|date',
         ]);
 
         $tanam = DataTanam::create([
@@ -51,7 +51,7 @@ class DataTanamController extends Controller
             'planting_date' => $validated['planting_date'],
             'status_tanam_id' => StatusTanam::AKTIF,
         ]);
-        $tanam ->load(['lahan', 'varietas.komoditas', 'statusTanam']);
+        $tanam ->load(['statusTanam']);
 
         return new DataTanamResource($tanam);
     }
