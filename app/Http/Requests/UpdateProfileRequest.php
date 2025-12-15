@@ -11,7 +11,7 @@ class UpdateProfileRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,25 @@ class UpdateProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'  => 'sometimes|string|max:255',
+            'phone_number' => 'sometimes|string|max:20',
+            'kelompok_tani_id' => 'sometimes|nullable|exists:kelompok_tani,id',
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'name.string' => 'Nama harus berupa teks.',
+            'name.max' => 'Nama maksimal 255 karakter.',
+            'phone_number.string' => 'Nomor telepon harus berupa teks.',
+            'phone_number.max' => 'Nomor telepon maksimal 20 karakter.',
+            'kelompok_tani_id.exists' => 'Kelompok tani yang dipilih tidak valid.',
         ];
     }
 }

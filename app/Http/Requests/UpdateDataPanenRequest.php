@@ -11,7 +11,7 @@ class UpdateDataPanenRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,22 @@ class UpdateDataPanenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'harvest_date'  => 'sometimes|date',
+            'yield_weight'  => 'sometimes|numeric|min:0.1',
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'harvest_date.date' => 'Format tanggal panen tidak valid.',
+            'yield_weight.numeric' => 'Berat hasil panen harus berupa angka.',
+            'yield_weight.min' => 'Berat hasil panen minimal 0.1 kg.',
         ];
     }
 }
