@@ -41,10 +41,15 @@ class DataTanamController extends Controller
 
     public function store (StoreDataTanamRequest $request)
     {
+        $validated = $request->validated();
+        
+        unset($validated['lahan_name']);
+        
         $tanam = DataTanam::create([
-            ...$request->validated(),
+            ...$validated,
             'status_tanam_id' => StatusTanam::AKTIF,
         ]);
+        
         $tanam->load(['lahan.user.kelompokTani', 'varietas.komoditas', 'statusTanam']);
 
         return new DataTanamResource($tanam);

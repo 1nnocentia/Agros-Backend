@@ -67,12 +67,11 @@ class AuthController extends Controller
     }
 
     /**
-     * Current User
+     * Get Current User Profile
      */
-    public function me(Request $request)
+    public function profile(Request $request)
     {
         $user = $request->user();
-        
         $user->load(['kelompokTani', 'lahan']); 
 
         return new UserResource($user);

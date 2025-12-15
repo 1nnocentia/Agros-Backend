@@ -24,7 +24,14 @@ class LahanController extends Controller
 
     public function store (StoreLahanRequest $request)
     {
-        $lahan = $request->user()->lahan()->create($request->validated());
+        $validated = $request->validated();
+        
+        if (empty($validated['lahan_name'])) {
+            $lahanCount = $request->user()->lahan()->count() + 1;
+            $validated['lahan_name'] = 'Lahan ' . $lahanCount;
+        }
+        
+        $lahan = $request->user()->lahan()->create($validated);
 
         return new LahanResource($lahan);
     }
@@ -42,7 +49,14 @@ class LahanController extends Controller
 
     public function update (UpdateLahanRequest $request, Lahan $lahan)
     {
-        $lahan->update($request->validated());
+        if ($lahan->user_id !== $request->user()->id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        
+        $validated = $request->validated();
+        $lahan->update($validated);
+        
+        // $lahan->refresh();
 
         return new LahanResource($lahan);
     }

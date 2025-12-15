@@ -16,6 +16,7 @@ class LahanResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'lahan_name' => $this->lahan_name,
             'land_area' => (float) $this->land_area,
             'lokasi' => [
                 'latitude' => (float) $this->latitude,

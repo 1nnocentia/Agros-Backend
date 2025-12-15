@@ -22,6 +22,7 @@ class StoreLahanRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'lahan_name' => 'nullable|string|max:255',
             'land_area' => 'required|numeric|min:0.01',
             'latitude'  => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
@@ -36,6 +37,8 @@ class StoreLahanRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'lahan_name.string' => 'Nama lahan harus berupa teks.',
+            'lahan_name.max' => 'Nama lahan maksimal 255 karakter.',
             'land_area.required' => 'Luas lahan wajib diisi.',
             'land_area.numeric' => 'Luas lahan harus berupa angka.',
             'land_area.min' => 'Luas lahan minimal 0.01 hektar.',

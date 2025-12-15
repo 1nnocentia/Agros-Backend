@@ -20,9 +20,9 @@ class MasterDataController extends Controller
         return KomoditasResource::collection($data);
     }
 
-    public function varietas(Request $request, $komoditas_id)
+    public function varietas(Request $request)
     {
-        $query = Varietas::query();
+        $query = Varietas::with('komoditas');
 
         if ($request->has('komoditas_id')) {
             $query->where('komoditas_id', $request->komoditas_id);

@@ -16,8 +16,9 @@ class VarietasResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'nama_varietas' => $this->variotas_name,
-            'komoditas' => new KomoditasResource($this->whenLoaded('komoditas'))
+            'nama_varietas' => $this->varietas_name,
+            'komoditas_id' => $this->komoditas_id,
+            'komoditas_name' => $this->komoditas->komoditas_name ?? null,
         ];
     }
 }
