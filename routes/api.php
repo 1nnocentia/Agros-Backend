@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\LahanController;
 use App\Http\Controllers\Api\DataTanamController;
 use App\Http\Controllers\Api\DataPanenController;
 
+Route::post('/check-phone', [AuthController::class, 'checkPhoneAvailability']);
 Route::post('/login', [AuthController::class, 'loginWithPhone']);
 
 Route::middleware('auth:sanctum')->group(function () {

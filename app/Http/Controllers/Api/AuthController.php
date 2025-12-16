@@ -45,6 +45,18 @@ class AuthController extends Controller
         ]);
     }
 
+    public function checkPhoneAvailability(MobileLoginRequest $request) 
+    {
+        $phoneNumber = $request->getFormattedPhoneNumber();
+
+        $exists = User::where('phone_number', $phoneNumber)->exists();
+
+        return response()->json([
+            'status' => 'success',
+            'exists' => $exists,
+        ]);
+    }
+
     /**
      * Get Current User Profile
      */
